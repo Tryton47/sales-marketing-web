@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sejarah Kami | Alpha Marketing</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS Khusus Halaman Sejarah & Timeline */
+        .page-header {
+            padding: 160px 0 60px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-header p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Agency Image Showcase */
+        .agency-image-section {
+            padding: 0 24px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .agency-photo-wrapper {
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        .agency-photo-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        }
+
+        .agency-photo {
+            width: 100%;
+            height: auto;
+            max-height: 600px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .agency-photo-wrapper:hover .agency-photo {
+            transform: scale(1.03);
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 30px;
+            left: 40px;
+            z-index: 10;
+            color: white;
+        }
+        
+        [data-theme="light"] .photo-caption {
+            color: white; /* Tetap putih karena background gradient gelap */
+        }
+
+        .photo-caption h3 {
+            font-size: 1.75rem;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        /* Timeline Styles */
+        .timeline-section {
+            padding: 80px 0 120px;
+            background: var(--bg-main);
+        }
+
+        .timeline-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        /* The center line */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent-purple));
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 4px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .timeline-item.show-visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: var(--bg-main);
+            border: 4px solid var(--primary);
+            border-radius: 50%;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            box-shadow: 0 0 0 6px var(--primary-light);
+        }
+
+        .timeline-content {
+            width: calc(50% - 50px);
+            padding: 30px;
+            position: relative;
+        }
+
+        /* Left side */
+        .timeline-item:nth-child(odd) .timeline-content {
+            float: left;
+            text-align: right;
+        }
+
+        /* Right side */
+        .timeline-item:nth-child(even) .timeline-content {
+            float: right;
+            text-align: left;
+        }
+
+        /* Clearfix */
+        .timeline-item::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .timeline-date {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            color: var(--secondary);
+        }
+
+        .timeline-content p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.5rem; }
+            .agency-photo-wrapper { border-radius: 16px; }
+            .photo-caption { left: 20px; bottom: 20px; }
+            
+            .timeline-container::before {
+                left: 30px;
+            }
+            .timeline-dot {
+                left: 30px;
+            }
+            .timeline-content {
+                width: calc(100% - 70px);
+                float: right !important;
+                text-align: left !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation (Kembali ke Utama) -->
+    <nav class="navbar scrolled" style="box-shadow: var(--shadow-sm);">
+        <div class="container nav-container">
+            <a href="index.html" class="logo" style="display:flex; align-items:center;">
+                <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+                    <path d="M16 2L2 28H11.5L16 19.5L20.5 28H30L16 2Z" fill="url(#paint0_linear_logo_about)"/>
+                    <defs>
+                        <linearGradient id="paint0_linear_logo_about" x1="16" y1="2" x2="16" y2="28" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#4F46E5"/>
+                            <stop offset="1" stop-color="#8B5CF6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                Alpha<span>Marketing</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">← Kembali Beranda</a></li>
+                <li><a href="#kisah" style="color: var(--primary);">Sejarah</a></li>
+                <li><a href="index.html#layanan">Layanan</a></li>
+                <li><a href="index.html#testimoni">Testimoni</a></li>
+                <li><a href="index.html#kontak" class="btn-outline">Konsultasi</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="themeToggle" class="theme-btn" aria-label="Toggle Theme">
+                    <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <svg id="sunIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </button>
+                <div class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Sejarah -->
+    <header class="page-header" id="kisah">
+        <div class="container">
+            <h1>Jejak Langkah Kami</h1>
+            <p>Sebuah dedikasi panjang dalam menciptakan inovasi digital yang membantu ratusan bisnis mencapai potensi puncaknya.</p>
+        </div>
+    </header>
+
+    <!-- Agency Photo Showcase -->
+    <section class="agency-image-section">
+        <div class="agency-photo-wrapper">
+            <!-- Menghubungkan gambar tim agency yang di-generate AI terbaru -->
+            <img src="C:\Users\USER\.gemini\antigravity\brain\b921756f-539b-436d-9de4-888a85fa3cf5\agency_team_photo_1775533164937.png" alt="Tim Alpha Marketing di Kantor Kaca Premium" class="agency-photo">
+            
+            <div class="photo-caption">
+                <h3>Tim Inti Alpha Marketing</h3>
+                <p style="opacity: 0.9;">Berkolaborasi di markas besar kami yang modern.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Berurutan -->
+    <section class="timeline-section">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <h2>Sejarah Pertumbuhan</h2>
+                <p>Bagaimana kami berawal menjadi pondasi kokoh bagi kesuksesan pemasaran Anda.</p>
+            </div>
+            
+            <div class="timeline-container">
+                
+                <!-- 2018 -->
+                <div class="timeline-item fade-in-up">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-card">
+                        <div class="timeline-date">2018</div>
+                        <h3>Awal Mula Terbentuk</h3>
+                        <p>Berdiri dengan nama awal *Nexus Digital* sebagai laboratorium pemasaran skala kecil oleh tiga orang visioner di sebuah ruangan sederhana. Fokus kami hanya pada keakuratan analisis data klien lokal.</p>
+                    </div>
+                </div>
+
+                <!-- 2021 -->
+                <div class="timeline-item fade-in-up delay-1">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-card">
+                        <div class="timeline-date">2021</div>
+                        <h3>Ekspansi Skala Nasional</h3>
+                        <p>Kepercayaan pelanggan meroket akibat tingginya retensi ROI klien. Tim kami berkembang pesat menjadi lebih dari 50 ahli, dan mulai menangani klien perbankan serta merek tingkat nasional.</p>
+                    </div>
+                </div>
+
+                <!-- 2023 -->
+                <div class="timeline-item fade-in-up delay-1">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-card">
+                        <div class="timeline-date">2023</div>
+                        <h3>Inovasi & Penghargaan</h3>
+                        <p>Meraih gelar "Best Digital Agency of The Year" karena telah memperkenalkan metodologi kampanye Omnichannel terintegrasi yang sepenuhnya menghilangkan tebakan (*guesswork*) pada target pasar.</p>
+                    </div>
+                </div>
+
+                <!-- 2026 -->
+                <div class="timeline-item fade-in-up delay-2">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-card" style="border: 2px solid var(--primary); box-shadow: var(--shadow-glow);">
+                        <div class="timeline-date">2026</div>
+                        <h3>Era Alpha Marketing</h3>
+                        <p>Re-branding resmi ke **Alpha Marketing**. Sistem AI otomatis dan optimasi algoritmik milik kami mampu meledakkan omset bisnis dalam jumlah dramatis. Ini adalah momen kami mendominasi ekosistem pemasaran modern. Bersama kami, saatnya giliran kesuksesan Anda.</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div style="text-align: center; margin-top: 80px;">
+                <a href="index.html#kontak" class="btn-primary" style="padding: 16px 32px; font-size: 1.125rem;">Tulis Sejarah Baru Anda Bersama Kami</a>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Footer Simple -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <a href="index.html" class="logo" style="display:flex; align-items:center; margin-bottom: 16px;">
+                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+                        <path d="M16 2L2 28H11.5L16 19.5L20.5 28H30L16 2Z" fill="url(#paint0_linear_footer_about)"/>
+                        <defs>
+                            <linearGradient id="paint0_linear_footer_about" x1="16" y1="2" x2="16" y2="28" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#4F46E5"/>
+                                <stop offset="1" stop-color="#8B5CF6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    Alpha<span>Marketing</span>
+                </a>
+                <p>Bagian Integral dari Sejarah Sukses Pemasaran Digital Anda.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Perusahaan</h4>
+                <ul>
+                    <li><a href="index.html#layanan">Kembali ke Beranda</a></li>
+                    <li><a href="#">Privasi</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Alpha Marketing. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Script untuk animasi dan Dark Mode dll. -->
+    <script src="script.js"></script>
+</body>
+</html>

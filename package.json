@@ -1,0 +1,19 @@
+{
+  "name": "sales-marketing-web",
+  "version": "1.0.0",
+  "description": "![Alpha Marketing Header](https://img.shields.io/badge/Status-Completed-success) ![Lingkungan](https://img.shields.io/badge/Lingkungan-Vanilla_Web_Stack-blue) ![Tujuan](https://img.shields.io/badge/Tujuan-Tugas_Akademik-purple)",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.1",
+    "express": "^5.2.1",
+    "mysql2": "^3.21.1"
+  }
+}

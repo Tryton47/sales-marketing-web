@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Alpha Marketing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #0f172a; /* Dark base */
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Rich Animated Background Gradient */
+        .premium-bg {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                #0f172a 0%,
+                #312e81 25%,
+                #1e1b4b 50%,
+                #4338ca 75%,
+                #0f172a 100%
+            );
+            animation: rotateBg 20s linear infinite;
+            z-index: 0;
+        }
+        
+        @keyframes rotateBg {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Overlay blur to make gradient smooth */
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(80px);
+            -webkit-backdrop-filter: blur(80px);
+            z-index: 1;
+        }
+
+        .login-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 440px;
+            padding: 20px;
+        }
+
+        /* Premium Glass Card */
+        .login-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 50px 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.05) inset;
+            text-align: center;
+            color: #f8fafc;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .logo {
+            display: inline-block;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #f8fafc;
+            text-decoration: none;
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
+        }
+        .logo span {
+            color: #818cf8;
+        }
+
+        .login-card h2 {
+            font-size: 1.75rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .login-card p {
+            color: #94a3b8;
+            margin-bottom: 35px;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.875rem;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+            background: rgba(15, 23, 42, 1);
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .error-msg {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            display: none;
+            animation: pulseError 2s infinite;
+        }
+
+        @keyframes pulseError {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-3px, 0, 0); }
+            20%, 80% { transform: translate3d(5px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
+            40%, 60% { transform: translate3d(8px, 0, 0); }
+        }
+        
+        .footer-text {
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="premium-bg"></div>
+    <div class="overlay"></div>
+
+    <div class="login-wrapper">
+        <div class="login-card" id="loginCard">
+            <a href="#" class="logo" style="display:flex; align-items:center; justify-content:center;">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+                    <path d="M16 2L2 28H11.5L16 19.5L20.5 28H30L16 2Z" fill="url(#paint0_linear_logo_login)"/>
+                    <defs>
+                        <linearGradient id="paint0_linear_logo_login" x1="16" y1="2" x2="16" y2="28" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#4F46E5"/>
+                            <stop offset="1" stop-color="#8B5CF6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                Alpha<span>Marketing</span>
+            </a>
+            
+            <h2>Sistem Terpadu</h2>
+            <p>Silakan verifikasi kredensial Anda.</p>
+
+            <div id="errorMsg" class="error-msg">
+                Autentikasi Gagal: ID atau Sandi Salah!
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="userId">Access ID</label>
+                    <input type="text" id="userId" placeholder="Masukkan ID (ex: andhika123)" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" id="submitBtn" class="btn-primary">Masuk ke Dasbor</button>
+            </form>
+            
+            <p class="footer-text">
+                &copy; 2026 Alpha Marketing - Dasbor Diamankan
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const errorMsg = document.getElementById('errorMsg');
+        const loginCard = document.getElementById('loginCard');
+        const submitBtn = document.getElementById('submitBtn');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const id = document.getElementById('userId').value;
+            const pw = document.getElementById('password').value;
+
+            submitBtn.innerText = 'Memeriksa Kredensial...';
+            submitBtn.disabled = true;
+            errorMsg.style.display = 'none';
+            loginCard.classList.remove('shake');
+
+            setTimeout(() => {
+                if(id === 'andhika123' && pw === 'andhika123') {
+                    submitBtn.innerText = 'Akses Diberikan!';
+                    submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 800);
+                } else {
+                    errorMsg.style.display = 'block';
+                    submitBtn.innerText = 'Masuk ke Dasbor';
+                    submitBtn.disabled = false;
+                    
+                    loginCard.offsetWidth; // trigger reflow
+                    loginCard.classList.add('shake');
+                    
+                    document.getElementById('password').value = '';
+                    document.getElementById('password').focus();
+                }
+            }, 1200);
+        });
+    </script>
+</body>
+</html>
