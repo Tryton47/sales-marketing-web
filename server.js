@@ -26,15 +26,15 @@ db.connect((err) => {
 
 // Endpoint untuk menyimpan order
 app.post('/api/orders', (req, res) => {
-  const { nama, email, paket } = req.body;
+  const { nama, email, whatsapp, paket } = req.body;
   
   // Validasi input
-  if (!nama || !email || !paket) {
-    return res.status(400).json({ error: 'Semua field (nama, email, paket) harus diisi' });
+  if (!nama || !email || !whatsapp || !paket) {
+    return res.status(400).json({ error: 'Semua field (nama, email, whatsapp, paket) harus diisi' });
   }
 
-  const query = 'INSERT INTO orders (nama, email, paket) VALUES (?, ?, ?)';
-  db.query(query, [nama, email, paket], (err, results) => {
+  const query = 'INSERT INTO orders (nama, email, whatsapp, paket) VALUES (?, ?, ?, ?)';
+  db.query(query, [nama, email, whatsapp, paket], (err, results) => {
     if (err) {
       console.error('Gagal menyimpan pesanan:', err);
       return res.status(500).json({ error: 'Terjadi kesalahan pada server' });
@@ -49,15 +49,15 @@ app.post('/api/orders', (req, res) => {
 
 // Endpoint untuk menyimpan pesan kontak
 app.post('/api/contacts', (req, res) => {
-  const { nama, email, pesan } = req.body;
+  const { nama, email, whatsapp, pesan } = req.body;
   
   // Validasi input
-  if (!nama || !email || !pesan) {
-    return res.status(400).json({ error: 'Semua field (nama, email, pesan) harus diisi' });
+  if (!nama || !email || !whatsapp || !pesan) {
+    return res.status(400).json({ error: 'Semua field (nama, email, whatsapp, pesan) harus diisi' });
   }
 
-  const query = 'INSERT INTO contacts (nama, email, pesan) VALUES (?, ?, ?)';
-  db.query(query, [nama, email, pesan], (err, results) => {
+  const query = 'INSERT INTO contacts (nama, email, whatsapp, pesan) VALUES (?, ?, ?, ?)';
+  db.query(query, [nama, email, whatsapp, pesan], (err, results) => {
     if (err) {
       console.error('Gagal menyimpan pesan kontak:', err);
       return res.status(500).json({ error: 'Terjadi kesalahan pada server' });
@@ -67,6 +67,35 @@ app.post('/api/contacts', (req, res) => {
       message: 'Pesan kontak berhasil dikirim!', 
       contactId: results.insertId 
     });
+  });
+});
+
+// Ambil semua data orders
+app.get('/api/orders', (req, res) => {
+  const sql = 'SELECT * FROM orders ORDER BY created_at DESC';
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
+// Update status order
+app.put('/api/orders/:id', (req, res) => {
+  const { status } = req.body;
+  const { id } = req.params;
+  const sql = 'UPDATE orders SET status = ? WHERE id = ?';
+  db.query(sql, [status, id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'Status berhasil diupdate' });
+  });
+});
+
+// Ambil semua data contacts
+app.get('/api/contacts', (req, res) => {
+  const sql = 'SELECT * FROM contacts ORDER BY created_at DESC';
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
   });
 });
 

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan & Skema | Alpha Marketing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .subpage-hero { padding: 150px 0 80px; text-align: center; }
+        .subpage-hero h1 { font-size: 3rem; margin-bottom: 20px; }
+        
+        /* Divisi Layanan Grid */
+        .divisi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 40px; }
+        .divisi-card { background: var(--glass-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 30px; transition: all 0.3s; position: relative; overflow: hidden; }
+        .divisi-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent-purple)); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+        .divisi-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
+        .divisi-card:hover::before { transform: scaleX(1); }
+        .divisi-icon { font-size: 3rem; margin-bottom: 20px; }
+        .divisi-card h3 { color: var(--primary); font-size: 1.3rem; margin-bottom: 12px; }
+        .divisi-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+
+        /* Skema Timeline Styles kept intact */
+        .timeline { position: relative; max-width: 800px; margin: 50px auto; }
+        .timeline::before { content: ''; position: absolute; width: 4px; background-color: var(--primary); top: 0; bottom: 0; left: 50%; margin-left: -2px; }
+        .timeline-box { padding: 20px 40px; position: relative; background-color: inherit; width: 50%; }
+        .timeline-box::after { content: ''; position: absolute; width: 20px; height: 20px; right: -11px; background-color: var(--bg-white); border: 4px solid var(--accent-green); top: 25px; border-radius: 50%; z-index: 1; }
+        .left { left: -2px; }
+        .right { left: 50%; }
+        .right::after { left: -11px; }
+        .content { padding: 30px; background: var(--glass-bg); border: 1px solid var(--border-color); position: relative; border-radius: 12px; box-shadow: var(--shadow-md); }
+        .content h3 { color: var(--primary); font-size: 1.5rem; margin-bottom: 10px; }
+        @media screen and (max-width: 600px) {
+            .timeline::before { left: 31px; }
+            .timeline-box { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-box::after, .left::after, .right::after { left: 21px; }
+            .right { left: 0%; }
+        }
+
+        .floating-wa { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: #25d366; color: #FFF; border-radius: 50px; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); z-index: 1000; transition: all 0.3s ease; text-decoration: none; }
+        .social-icons { display: flex; gap: 15px; margin-top: 15px; }
+        .social-icons a { color: #94a3b8; transition: color 0.3s ease, transform 0.3s ease; }
+        .social-icons a:hover { color: #fff; transform: translateY(-3px); }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar scrolled">
+        <div class="container nav-container">
+            <a href="index.html" class="logo" style="display:flex; align-items:center;">
+                <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+                    <path d="M16 2L2 28H11.5L16 19.5L20.5 28H30L16 2Z" fill="url(#paint0_linear_logo)"/>
+                </svg>
+                Alpha<span>Marketing</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="layanan.html" style="color:var(--primary); font-weight:700;">Layanan Terpadu</a></li>
+                <li><a href="harga.html">Harga & Paket</a></li>
+                <li><a href="about.html">Sejarah</a></li>
+                <li><a href="kontak.html" class="btn-outline">Konsultasi Gratis</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="themeToggle" class="theme-btn" aria-label="Toggle Theme">
+                    <svg id="moonIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </button>
+                <div class="mobile-menu-btn"><span></span><span></span><span></span></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Subpage Hero -->
+    <section class="subpage-hero" data-aos="fade-in">
+        <div class="container">
+            <h1>Layanan Palugada Digital Agensi</h1>
+            <p>Satu agensi untuk seluruh kebutuhan digital Anda. Mulai dari konsep logo, produksi video estetis, hingga ledakan iklan berbayar.</p>
+        </div>
+    </section>
+
+    <!-- 4 Pilar Layanan -->
+    <section class="features" id="layanan" style="padding-top: 0;">
+        <div class="container">
+            <div class="divisi-grid">
+                
+                <div class="divisi-card" data-aos="fade-up" data-tilt data-tilt-max="3" data-tilt-speed="400">
+                    <div class="divisi-icon">🎬</div>
+                    <h3>Produksi Kreatif & Video</h3>
+                    <p>Pembuatan video sinematik untuk brand (company profile), video vertikal (Tiktok/Reels) yang viral, serta layanan dokumentasi acara eksklusif (event liputan siang/malam, termasuk drone shooting jika dibutuhkan). Kami edit sampai sempurna di mata audiens!</p>
+                </div>
+
+                <div class="divisi-card" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="3" data-tilt-speed="400">
+                    <div class="divisi-icon">📱</div>
+                    <h3>Social Media Management (SMM)</h3>
+                    <p>Serahkan akun Instagram dan TikTok Anda kepada kami. Kami yang riset konten, kami yang desain jadwal feed harian, dan kami yang meramu copywriting *(caption)* paling elegan. Anda duduk santai melihat followers bertumbuh organik.</p>
+                </div>
+
+                <div class="divisi-card" data-aos="fade-up" data-aos-delay="200" data-tilt data-tilt-max="3" data-tilt-speed="400">
+                    <div class="divisi-icon">🎨</div>
+                    <h3>Desain Grafis Profesional</h3>
+                    <p>Tidak perlu menyewa desainer bulanan. Kami melayani pembuatan *branding kit* (Logo Perusahaan), desain brosur cetak berkualitas tinggi, pamflet digital, hingga Spanduk yang memikat mata siapapun yang melihatnya secara visual.</p>
+                </div>
+
+                <div class="divisi-card" data-aos="fade-up" data-aos-delay="300" data-tilt data-tilt-max="3" data-tilt-speed="400">
+                    <div class="divisi-icon">🚀</div>
+                    <h3>Optimasi Konversi & Iklan (Ads)</h3>
+                    <p>Hanya desain bagus kadang tidak cukup. Kami siapkan bensinnya berpa *Facebook/Meta Ads, Tiktok Ads, & Google Ads* agar konten yang dibuat di atas tayang ke ratusan ribu calon pembeli ideal dan konversi WhatsApp toko Anda meledak.</p>
+                </div>
+
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;" data-aos="fade-up">
+                <a href="harga.html" class="btn-primary" style="padding: 16px 32px; font-size: 1.1rem;">Lihat Katalog Detail & Paket Bundling</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skema Kerja Full Service -->
+    <section style="padding: 80px 0 120px; background: var(--bg-white);">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Skema Eksekusi Studio</h2>
+                <p>Bagaimana dapur agensi Alpha Marketing memproses request kreatif Anda dengan gesit dan terukur.</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-box left" data-aos="fade-right">
+                    <div class="content">
+                        <h3>1. Kickoff & Brainstroming</h3>
+                        <p>Diskusi awal bentuk logo, gaya bahasa video, dan target *audience*. Kami sediakan moodboard (papan inspirasi) bagi brand Anda.</p>
+                    </div>
+                </div>
+                <div class="timeline-box right" data-aos="fade-left">
+                    <div class="content">
+                        <h3>2. Tahap Produksi & Syuting</h3>
+                        <p>Tim terjun ke lapangan untuk mengambil foto/video. Fotografer, Videografer, dan Pengatur Arah akan memastikan material yang diambil berkelas.</p>
+                    </div>
+                </div>
+                <div class="timeline-box left" data-aos="fade-right">
+                    <div class="content">
+                        <h3>3. Post-Production (Editing)</h3>
+                        <p>Materi mentah masuk studio kami untuk diolah, diberi visual effect, efek suara (BGM), dan *color grading*. Revisi ditoleransi dengan kesepakatan.</p>
+                    </div>
+                </div>
+                <div class="timeline-box right" data-aos="fade-left">
+                    <div class="content">
+                        <h3>4. Pendistribusian Konten (SMM & Ads)</h3>
+                        <p>Setelah *approval*, karya visual akan di sebarkan berkala melalui kalender sosial media dan disokong menggunakan kampanye *Ads* bila diperlukan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <h3 style="color:white; margin-bottom:10px;">Alpha Marketing</h3>
+                <p>Agensi pelopor solusi terpadu untuk bisnis masa depan.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Perusahaan</h4>
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="harga.html">Harga</a></li>
+                    <li><a href="kontak.html">Hubungi Kami</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <a href="#" class="floating-wa">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.005-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+        </svg>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+    <script> AOS.init({ once: true, offset: 50 }); </script>
+</body>
+</html>

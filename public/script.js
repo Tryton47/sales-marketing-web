@@ -86,11 +86,22 @@ document.addEventListener('DOMContentLoaded', () => {
         convOut.textContent = convSlider.value + '%';
         avgOut.textContent = new Intl.NumberFormat('id-ID').format(avgVal);
 
-        // Calculate
-        const sales = visitors * convRate;
-        const totalRevenue = sales * avgVal;
+        // Calculate Current Baseline
+        const currentSales = visitors * convRate;
+        const currentTotalRevenue = currentSales * avgVal;
         
-        revenueOut.textContent = formatRupiah(totalRevenue);
+        // Simulasikan Kekuatan Strategi Alpha Marketing (Misal traffic naik 2.5x, konversi naik +1.5%)
+        const newVisitors = visitors * 2.5; 
+        const newConvRate = convRate + 0.015;
+        const newSales = newVisitors * newConvRate;
+        const newTotalRevenue = newSales * avgVal;
+        
+        // Tampilkan di UI
+        const currentRevOut = document.getElementById('currentRevenue');
+        if(currentRevOut) {
+            currentRevOut.textContent = formatRupiah(currentTotalRevenue);
+        }
+        revenueOut.textContent = formatRupiah(newTotalRevenue);
     }
 
     if(visitorSlider && convSlider && avgSlider) {
@@ -125,6 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = form.querySelector('button[type="submit"]');
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
+            const whatsapp = document.getElementById('whatsapp').value;
             const paket = document.getElementById('interest').value;
             
             const originalText = btn.innerText;
@@ -137,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ nama: name, email, paket })
+                    body: JSON.stringify({ nama: name, email, whatsapp, paket })
                 });
 
                 const data = await response.json();
@@ -184,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = contactMsgForm.querySelector('button[type="submit"]');
             const nama = document.getElementById('contactName').value;
             const email = document.getElementById('contactEmail').value;
+            const whatsapp = document.getElementById('contactWhatsapp').value;
             const pesan = document.getElementById('contactMessage').value;
             
             const originalText = btn.innerText;
@@ -194,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('http://localhost:3000/api/contacts', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nama, email, pesan })
+                    body: JSON.stringify({ nama, email, whatsapp, pesan })
                 });
 
                 const data = await response.json();

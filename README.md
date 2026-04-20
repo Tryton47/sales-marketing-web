@@ -5,15 +5,15 @@
 ![Tujuan](https://img.shields.io/badge/Tujuan-Tugas_Akademik-purple)
 
 ## 📌 Deskripsi Proyek
-**Alpha Marketing** adalah platform ekosistem pemasaran berbasis *Digital Agency*. Aplikasi web ini pada mulanya dibangun sebagai struktur mandiri (*Frontend Web Application*), namun telah berevolusi menjadi proyek layar penuh (**Full-Stack**) lengkap dengan kerangka pemrosesan sistem server (*Node.js + Express Backend*) serta basis data aktif (*MySQL Database terintegrasi via Docker & Navicat*).
+**Alpha Marketing** adalah platform ekosistem pemasaran berskala **Full-Service Digital Agency**. Aplikasi web ini telah diekspansi secara masif untuk melayani manajemen Ads, Produksi Video Sinematik, Pengelolaan Sosial Media (SMM), dan Desain Grafis (A La Carte maupun Bundling). Proyek ini dibangun sebagai kerangka layar penuh (**Full-Stack**) lengkap dengan pemrosesan sistem server (*Node.js + Express Backend*) serta basis data aktif (*MySQL Database terintegrasi via Docker & Navicat*).
 
-Fokus utama dari proyek ini adalah implementasi **Modern UI/UX Design** (seperti *Glassmorphism*, *Dark Mode*, *Scroll Animation*, dan Sinkronisasi Cerdas) serta fungsionalitas pengumpulan pelanggan (Lead Generation) dan Pertanyaan Klien yang langsung menancap ke penyimpanan relasional (*Relational DB*).
+Fokus utama dari proyek ini adalah implementasi **Modern UI/UX Design** (seperti *Glassmorphism*, *Dark Mode* multi-halaman, *Scroll Animation*) serta fungsionalitas pengumpulan pelanggan riil (*Lead Generation* dan Fitur Pesanan Pintar dengan Tautan WhatsApp Otomatis) yang dikelola lewat Dasbor Admin Eksekutif.
 
 ## 🛠️ Teknologi yang Digunakan
 Sistem ini menggunakan ekosistem *Node/Custom API* yang dinamis namun tetap berbobot ringan di sisi server:
-1. **Frontend Web Murni (HTML/CSS/JS)**: Tidak melibatkan pustaka bundel berat (seperti React) demi efisiensi optimal dan kecepatan muat maksimum. Termasuk sistem Pemindah Tema Otomatis dan Form Asinkron (Fetch API).
-2. **REST API Server (Node.js & Express)**: Kerangka perantara pelayan lalu lintas. Menerima pos HTTP klien, memvalidasi keamanan, lalu menyimpan struktur JSON ke database.
-3. **Penyimpanan Terpusat (MySQL 8 / Navicat Premium)**: Logika dan relasi tabel diletakkan ke *`mysql2`* Node driver untuk mengelola `orders` (pemesanan) dan `contacts` (Tanya Jawab), diamankan dalam lingkungan *Docker Container*.
+1. **Frontend Web Murni (HTML/CSS/JS)**: Arsitektur *Multi-page* (`layanan`, `harga`, `kontak`) yang sangat efisien untuk memfasilitasi bisnis kelas industri, tanpa konfigurasi framework berat. Menggunakan VanillaTilt.js dan Sinkronisasi Tema antar halaman.
+2. **REST API Server (Node.js & Express)**: Kerangka perantara pelayan lalu lintas form pemesanan multi-kategori dan pertanyaan umum, lengkap dengan asimilasi nomor WhatsApp klien.
+3. **Penyimpanan Terpusat (MySQL 8 / Navicat Premium)**: Logika dan relasi tabel fleksibel via *`mysql2`* Node driver untuk mengelola `orders` dan `contacts` di lingkungan lokal/kontainerisasi.
 
 ## 🌟 Fitur Utama (Key Features)
 
@@ -23,32 +23,37 @@ Dilengkapi pemindah (*switcher*) tema otomatis. Menggunakan `localStorage` pada 
 ### 2. Kalkulator Profil ROI Interaktif (Real-Time JS)
 Simulasi perhitungan finansial yang merambat langsung ke layar. Pengguna dapat menggeser penanda (*Slider Range*), dan JavaScript akan melakukan komputasi parameter untuk menyajikan persentase potensi keuntungan seketika itu juga. Hal ini membuktikan kompetensi pembuatan model interaktif.
 
-### 3. Sistem Gerbang Autentikasi Modern (Login Page)
-Halaman terpisah di `login.html` yang mendemonstrasikan sistem *dummy-login*. Dilengkapi validasi keamanan simulasi menggunakan kredensial (ID: `andhika123`, PW: `andhika123`). Bila sandi ditolak, sistem memberikan respons visual *Haptic Shake* (bergetar) berbasis animasi CSS berpadu *timeout* JS. Kesuksesan login memicu efek visual gradien hijau yang menandakan pintu gerbang terbuka ke halaman dasbor (`index.html`).
+### 3. Arsitektur Agensi Palugada (Multi-Page Routing)
+Website telah dibongkar menjadi navigasi cerdas yang memisahkan Beranda, Layanan/Pilar Kreatif (`layanan.html`), Paket Harga (`harga.html`), Sejarah (`about.html`), dan Formulir Pintar (`kontak.html`). Pemisahan ini menciptakan *funneling* psikologi marketing yang mendasar dan kokoh layaknya perusahaan besar. 
 
-### 4. Animasi Intersection Observer (Lazy Reveal)
-Daripada memberikan fungsional animasi kepada CSS standar yang menyerap memori, web ini melacak posisi piksel pengunjung menggunakan *IntersectionObserver API*. Elemen UI seperti Kartu, Teks, dan Gambar baru akan ditampilkan (dengan efek transisi mengambang dari bawah) di rentang detik pengunjung tiba di posisi layar tersebut.
+### 4. Animasi Intersection Observer & Interaktif 3D
+Selain melacak posisi menggunakan *IntersectionObserver API* (*Fade-in/up* lewat `AOS.js`), fitur *VanillaTilt.js* dipasang pada elemen pameran jasa (Kartu Harga, Modal) untuk memberikan kesan dinamis 3D yang mencerminkan agensi *ultra-premium*.
 
-### 5. Formulir Pemasaran & Tanya Jawab Terpusat (Database Connected)
-Website memiliki form khusus pemesanan "Lead Generation" dan "General Questions/Contact". Semua form menghindari sistem *refresh* (*Anti-Reload*) menggunakan `Fetch API` JavaScript dan langsung mengirimnya ke *REST API Backend* untuk direkam di *MySQL*.
+### 5. Formulir Pintar Terhubung WhatsApp (Smart Routing)
+Pemesanan jasa spesifik di halaman harga (*A La Carte/Kustom*) dilengkapi URL Parameter `?layanan=...` yang secara otomatis meng-seleksi opsi *dropdown* (Auto-fill) untuk klien di formulir pemesanan. Formulir ini lalu mengirim JSON berisi nama, email, pilihan jasa, dan **Nomor WhatsApp**, langsung ke MySQL Backend.
 
-### 6. Seamless Component & Interactions
-Beberapa pelengkap arsitektur UI/UX lainnya termasuk:
-- Akselerasi Pergerakan Logo Paralel (*Infinite CSS Loop Marquee*).
-- Form Tanya Jawab (*FAQ Accordion*) yang beroperasi merubah tinggi piksel otomatis untuk optimalisasi ruang ruang baca.
+### 6. Executive Admin Dashboard (`admin.html`)
+Dasbor rahasia (diproteksi kata sandi `admin`) untuk meninjau secara langsung setiap pesanan yang masuk dan riwayat form Hubungi Kami. Super Admin dapat:
+- Melihat metrik Total Order, Pending, dan Selesai.
+- Mengubah status pengerjaan sistem (*Pending/Diproses/Selesai*).
+- Menekan nomor WhatsApp klien dan diarahkan ke *WhatsApp Web/App* langsung tanpa perlu menyimpan nomor manual ke buku kontak.
 
 ## 📂 Struktur File (File Directory)
 Semua fungsi berpusat pada komponen-file independen:
 ```text
 /sales-marketing-web
 ├── public/           // Aset Publik Pameran Frontend
-│   ├── index.html    // File Master/Beranda Utama beserta Form Orders & Contacts
+│   ├── index.html    // Beranda Utama (Hero & Simulator ROI)
+│   ├── layanan.html  // Skema 4 Pilar (Sosmed, Video, Ads, Beranda)
+│   ├── harga.html    // Tabel Harga Paket dan Jasa Eceran (A La Carte)
+│   ├── kontak.html   // Formulir Smart Endpoint untuk DB (Auto-parameter)
 │   ├── about.html    // Halaman Sejarah berbasis Timeline
-│   ├── login.html    // Akses Gerbang (Dilengkapi validasi JS internal)
-│   ├── style.css     // Pusat Pengendalian Desain Global
-│   └── script.js     // Logika Otak Utama API & DOM (Kalkulator, Fetch API)
+│   ├── admin.html    // Panel Manajemen Pesanan & WhatsApp Router Khusus Admin
+│   ├── login.html    // Gerbang Autentikasi Admin
+│   ├── style.css     // Pusat Regulasi Palet Warna & Glassmorphism
+│   └── script.js     // Logika Otak Utama API, Kalkulator, & Fetch
 ├── server.js         // Gerbang API Backend Express.js & Terowongan MySQL
-├── .env              // File Skema Kredensial Database
+├── .env              // File Skema Kredensial Database Rahasia
 ├── Panduan_*.md      // Tata Cara Skema Instansi Eksternal Docker/Navicat SQL
 └── README.md         // Dokumentasi Repositori ini
 ```
@@ -62,9 +67,9 @@ Jika Anda hanya ingin menjalankannya secara singkat (Asumsi DB sudah siap):
 3. Beranda interaktif akan terlayani pada mesin lokomotor API di [http://localhost:3000](http://localhost:3000)
 
 ## 🔜 Pengembangan Lanjutan (Roadmap)
-- Integrasi *Backend* ✅ (Status: Terpenuhi! Tabel Pemesanan & Kontak berjalan murni dalam SQL Server)
-- Fitur *Dashboard Admin* Sistem untuk Manajemen Kontak (*Login Required*) ⏳ 
-- Pengiriman Tanda Terima (*Receipt*) melalui NodeMailer ke surel. ⏳
+- Integrasi Penuh Backend & Dasbor Admin ✅ (Status: Terpenuhi! Manajemen Database SQL 100% fungsional beserta filter status dan tautan auto-wa.me)
+- Routing URL Otomatis ✅ (Status: Terpenuhi! Memastikan form kontak langsung mengunci layanan yang dipencet pengguna)
+- Pengiriman Tanda Terima (*Receipt*) melalui API WhatsApp Pihak Ketiga (seperti Baileys) ke klien. ⏳
 
 ---
 ✍️ **Dikembangkan oleh:** Tim Alpha Marketing - 2026

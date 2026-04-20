@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harga & Garansi | Alpha Marketing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .subpage-hero { padding: 150px 0 80px; text-align: center; }
+        .subpage-hero h1 { font-size: 3rem; margin-bottom: 20px; }
+        
+        /* Modal Info Paket */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.3s ease; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: var(--bg-white); border: 1px solid var(--border-color); border-radius: 20px; width: 90%; max-width: 600px; padding: 40px; transform: translateY(50px) scale(0.9); transition: all 0.4s ease; position: relative; box-shadow: var(--shadow-lg); }
+        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+        .modal-close { position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; transition: color 0.3s; }
+        .modal-close:hover { color: var(--primary); }
+        .modal-title { font-size: 1.8rem; margin-bottom: 10px; color: var(--primary); }
+        .modal-meta { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 25px; font-style: italic; }
+        
+        /* Guarantee Badge */
+        .guarantee-box { margin: 60px auto; max-width: 800px; background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(16,185,129,0.05)); border: 2px dashed var(--accent-green); border-radius: 20px; padding: 40px; text-align: center; }
+        .guarantee-box h3 { color: var(--accent-green); font-size: 2rem; margin-bottom: 15px; }
+
+        /* Ala carte list */
+        .alacarte-section { padding: 60px 0 100px; }
+        .alacarte-header { text-align: center; margin-bottom: 40px; }
+        .alacarte-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .alacarte-item { display: flex; justify-content: space-between; align-items: center; background: var(--glass-bg); padding: 20px; border: 1px solid var(--border-color); border-radius: 12px; }
+        .alacarte-item .title { font-weight: 600; font-size: 1.1rem; color: var(--text-main); }
+        .alacarte-item .price { font-weight: 700; color: var(--primary); font-size: 1.2rem; }
+
+        .floating-wa { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: #25d366; color: #FFF; border-radius: 50px; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); z-index: 1000; transition: all 0.3s ease; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar scrolled">
+        <div class="container nav-container">
+            <a href="index.html" class="logo" style="display:flex; align-items:center;">
+                <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+                    <path d="M16 2L2 28H11.5L16 19.5L20.5 28H30L16 2Z" fill="url(#paint0_linear_logo)"/>
+                </svg>
+                Alpha<span>Marketing</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="layanan.html">Layanan Terpadu</a></li>
+                <li><a href="harga.html" style="color:var(--primary); font-weight:700;">Harga & Paket</a></li>
+                <li><a href="about.html">Sejarah</a></li>
+                <li><a href="kontak.html" class="btn-outline">Konsultasi Gratis</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="themeToggle" class="theme-btn" aria-label="Toggle Theme">
+                    <svg id="moonIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </button>
+                <div class="mobile-menu-btn"><span></span><span></span><span></span></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Subpage Hero -->
+    <section class="subpage-hero" data-aos="fade-in">
+        <div class="container">
+            <h1>Transparansi Investasi Anda</h1>
+            <p>Pilih paket Bundling untuk hasil maksimal atau Jasa Satuan (A La Carte) sesuai kebutuhan harian.</p>
+        </div>
+    </section>
+
+    <!-- Pricing Packages -->
+    <section class="pricing" id="harga" style="padding-top: 0;">
+        <div class="container">
+            <h2 style="text-align:center; margin-bottom:40px; font-size:2rem;">👑 Paket Premium Bundling</h2>
+            <div class="pricing-grid">
+                <!-- Paket Starter -->
+                <div class="pricing-card" data-aos="fade-up" data-tilt data-tilt-max="3" data-tilt-speed="400">
+                    <h3>Sosmed Starter</h3>
+                    <div class="price">Rp 1.500k<span>/bulan</span></div>
+                    <ul class="pricing-features">
+                        <li>15 Desain Feed Premium</li>
+                        <li>Copywriting Ciamik</li>
+                        <li>1x Liputan Acara Pendek</li>
+                        <li>Laporan Analitik Akun</li>
+                    </ul>
+                    <button class="btn-secondary full-width btn-detail" data-paket="starter">Detail Starter</button>
+                    <a href="kontak.html" class="btn-outline full-width" style="margin-top:10px;">Pilih Paket</a>
+                </div>
+                <!-- Paket Pro Dewa (Bundle SMM + Video + Ads) -->
+                <div class="pricing-card highlighted" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="3" data-tilt-speed="400">
+                    <div class="popular-badge">Paling Cuann (Super ROI)</div>
+                    <h3>Bundel Sultan (All-In)</h3>
+                    <div class="price">Rp 5.900k<span>/bulan</span></div>
+                    <ul class="pricing-features">
+                        <li>30 Desain Feed & Story (Harian)</li>
+                        <li>4x Syuting Video Reels/Tiktok</li>
+                        <li>1x Dokumentasi Event Utama</li>
+                        <li>Jasa Kelola Meta Ads & Google</li>
+                    </ul>
+                    <button class="btn-secondary full-width btn-detail" data-paket="sultan" style="color:#1e293b; background:white;">Detail Sultan All-In</button>
+                    <a href="kontak.html" class="btn-primary full-width" style="margin-top:10px;">Pilih Paket Sultan</a>
+                </div>
+                <!-- Paket Video/Doc -->
+                <div class="pricing-card" data-aos="fade-up" data-aos-delay="200" data-tilt data-tilt-max="3" data-tilt-speed="400">
+                    <h3>Paket Sinematik</h3>
+                    <div class="price">Rp 3.500k<span>/proyek</span></div>
+                    <ul class="pricing-features">
+                        <li>Penuh Sehari Syuting Dokumentasi</li>
+                        <li>Pengambilan Resolusi 4K & Drone</li>
+                        <li>Mendapat 1 Video Panjang (Company Profile)</li>
+                        <li>Mendapat 3 Short Video (Reels)</li>
+                    </ul>
+                    <button class="btn-secondary full-width btn-detail" data-paket="video">Detail Sinematik</button>
+                    <a href="kontak.html" class="btn-outline full-width" style="margin-top:10px;">Pilih Sinematik</a>
+                </div>
+            </div>
+            
+            <!-- Guarantee Box -->
+            <div class="guarantee-box" data-aos="zoom-in" data-aos-delay="300">
+                <h3>🔒 100% Garansi Kepuasan Estetika & ROI</h3>
+                <p>Kami menjamin seluruh karya desain brosur maupun pengambilan dokumentasi video menggunakan peralatan industri kreatif standar *High-End*. Jika dalam <strong>Paket Bundel Ads</strong> tidak ada peningkatan Return on Investment sama sekali, kami akan mensubsidi jasa pelayanan kami!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ala Carte List -->
+    <section class="alacarte-section" style="background:var(--bg-main);">
+        <div class="container">
+            <div class="alacarte-header" data-aos="fade-up">
+                <h2>🛒 Jasa Layanan Satuan (A La Carte)</h2>
+                <p style="color:var(--text-muted); margin-top:10px;">Hanya butuh perbaikan kecil atau editing ringan? Pilih opsi ini secara satuan tanpa berlangganan bulanan.</p>
+            </div>
+            
+            <div class="alacarte-list" data-aos="fade-up" data-aos-delay="150">
+                <div class="alacarte-item" data-tilt data-tilt-max="5">
+                    <div style="flex:1;">
+                        <div class="title">Pembuatan Logo Profesional</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted);">Format vector, 3x Revisi</div>
+                        <div class="price" style="margin-top:5px;">Rp 500k</div>
+                    </div>
+                    <a href="kontak.html?layanan=Desain+Logo" class="btn-outline" style="padding: 8px 16px; font-size: 0.9rem;">Pesan</a>
+                </div>
+                <div class="alacarte-item" data-tilt data-tilt-max="5">
+                    <div style="flex:1;">
+                        <div class="title">Desain Brosur / Pamflet</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted);">Siap cetak & format digital</div>
+                        <div class="price" style="margin-top:5px;">Rp 150k</div>
+                    </div>
+                    <a href="kontak.html?layanan=Desain+Brosur" class="btn-outline" style="padding: 8px 16px; font-size: 0.9rem;">Pesan</a>
+                </div>
+                <div class="alacarte-item" data-tilt data-tilt-max="5">
+                    <div style="flex:1;">
+                        <div class="title">Jasa Edit Video</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted);">Durasi mentah Max 10 menit</div>
+                        <div class="price" style="margin-top:5px;">Rp 300k</div>
+                    </div>
+                    <a href="kontak.html?layanan=Jasa+Edit+Video" class="btn-outline" style="padding: 8px 16px; font-size: 0.9rem;">Pesan</a>
+                </div>
+                <div class="alacarte-item" data-tilt data-tilt-max="5">
+                    <div style="flex:1;">
+                        <div class="title">Setup Iklan Meta Ads</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted);">Tanpa maintenance harian</div>
+                        <div class="price" style="margin-top:5px;">Rp 800k</div>
+                    </div>
+                    <a href="kontak.html?layanan=Setup+Iklan+Meta" class="btn-outline" style="padding: 8px 16px; font-size: 0.9rem;">Pesan</a>
+                </div>
+                <div class="alacarte-item" data-tilt data-tilt-max="5">
+                    <div style="flex:1;">
+                        <div class="title">Dokumentasi Event</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted);">Hanya Foto, Half-day (4 jam)</div>
+                        <div class="price" style="margin-top:5px;">Rp 750k</div>
+                    </div>
+                    <a href="kontak.html?layanan=Dokumentasi+Acara" class="btn-outline" style="padding: 8px 16px; font-size: 0.9rem;">Pesan</a>
+                </div>
+                <div class="alacarte-item" data-tilt data-tilt-max="5">
+                    <div style="flex:1;">
+                        <div class="title">Custom Bebas</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted);">Silakan chat tim kami</div>
+                        <div class="price" style="margin-top:5px;">Menyesuaikan</div>
+                    </div>
+                    <a href="kontak.html?layanan=Custom+/+Lainnya" class="btn-outline" style="padding: 8px 16px; font-size: 0.9rem;">Chat</a>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Modal Popup Data -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">×</button>
+            <h2 class="modal-title" id="mTitle">Paket Title</h2>
+            <p class="modal-meta" id="mMeta">Perumpamaan Analogi</p>
+            <div class="modal-body" id="mBody" style="line-height: 1.8;">
+                Deskripsi detail...
+            </div>
+            <a href="kontak.html" class="btn-primary" style="margin-top: 30px;">Reservasi Sekarang</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <h3 style="color:white; margin-bottom:10px;">Alpha Marketing</h3>
+                <p>Digital Agency Palugada Kualitas Tinggi.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navigasi</h4>
+                <ul>
+                    <li><a href="layanan.html">Skema Layanan</a></li>
+                    <li><a href="kontak.html">Hubungi Kami</a></li>
+                    <li><a href="login.html">Dasbor Admin</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WA -->
+    <a href="#" class="floating-wa">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.005-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+    
+    <script>
+        AOS.init({ once: true, offset: 50 });
+        
+        // Updated Modal Logic for the new packages
+        const paketData = {
+            "starter": {
+                title: "Paket Sosmed Starter",
+                meta: "💡 Analogi: Punya kasir toko yang juga bantu bersihin etalase setiap hari.",
+                body: "Paket ini khusus merawat kanal media sosial Anda. Kami mendesain 15 grafis gambar (*Feed*) selama sebulan, membalas sebagian DM secara representatif, plus gratis 1x tim terjun liputan singkat ke tempat usaha Anda."
+            },
+            "sultan": {
+                title: "Paket Sultan All-in (Full Service)",
+                meta: "💡 Analogi: Beli mesin cetak uang masa depan beserta supir berkecepatan tinggi.",
+                body: "Ini adalah solusi *Palugada* tertinggi kami. Mulai dari suplai 30 post sebulan (tiap harinya akun Anda konsisten aktif), 4 buah konsep Reel yang diproduksi dengan mulus, Dokumentasi event mewah, sekaligus kami iklankan di Meta & Google agar pesanan masuk membludak."
+            },
+            "video": {
+                title: "Paket Sinematik & Dokumentasi",
+                meta: "💡 Analogi: Mengubah perusahaan Anda menjadi film Netflix yang elegan.",
+                body: "Tidak butuh pengelolaan bulanan? Ambil paket sekali putus ini! Cocok untuk liputan acara pembukaan (Grand Opening), kawinan mewah (Wedding), atau pembuatan Company Profile Perusahaan. Termasuk pilot drone berlisensi dan editan *color grading* setara sinema."
+            }
+        };
+
+        const modal = document.getElementById('detailModal');
+        const btnCloses = document.getElementById('closeModal');
+        const mTitle = document.getElementById('mTitle');
+        const mMeta = document.getElementById('mMeta');
+        const mBody = document.getElementById('mBody');
+
+        document.querySelectorAll('.btn-detail').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const tipe = e.target.getAttribute('data-paket');
+                const data = paketData[tipe];
+                if(data) {
+                    mTitle.textContent = data.title;
+                    mMeta.textContent = data.meta;
+                    mBody.textContent = data.body;
+                    modal.classList.add('active');
+                }
+            });
+        });
+
+        btnCloses.addEventListener('click', () => modal.classList.remove('active'));
+        modal.addEventListener('click', (e) => {
+            if(e.target === modal) modal.classList.remove('active');
+        });
+    </script>
+</body>
+</html>

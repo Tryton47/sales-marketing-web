@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="light">
+<html lang="id" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,214 +8,48 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
         /* CSS Khusus Halaman Sejarah & Timeline */
-        .page-header {
-            padding: 160px 0 60px;
-            text-align: center;
-        }
-
-        .page-header h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 24px;
-            background: linear-gradient(135deg, var(--primary), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .page-header p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        /* Agency Image Showcase */
-        .agency-image-section {
-            padding: 0 24px 80px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .agency-photo-wrapper {
-            width: 100%;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            position: relative;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: fadeInUp 1s ease-out forwards;
-        }
-
-        .agency-photo-wrapper::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 40%;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-        }
-
-        .agency-photo {
-            width: 100%;
-            height: auto;
-            max-height: 600px;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.6s ease;
-        }
-
-        .agency-photo-wrapper:hover .agency-photo {
-            transform: scale(1.03);
-        }
-
-        .photo-caption {
-            position: absolute;
-            bottom: 30px;
-            left: 40px;
-            z-index: 10;
-            color: white;
-        }
-        
-        [data-theme="light"] .photo-caption {
-            color: white; /* Tetap putih karena background gradient gelap */
-        }
-
-        .photo-caption h3 {
-            font-size: 1.75rem;
-            margin-bottom: 8px;
-            color: white;
-        }
-
-        /* Timeline Styles */
-        .timeline-section {
-            padding: 80px 0 120px;
-            background: var(--bg-main);
-        }
-
-        .timeline-container {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            padding: 20px 0;
-        }
-
-        /* The center line */
-        .timeline-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: linear-gradient(to bottom, var(--primary), var(--accent-purple));
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 4px;
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 60px;
-            width: 100%;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .timeline-item.show-visible {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            background: var(--bg-main);
-            border: 4px solid var(--primary);
-            border-radius: 50%;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            box-shadow: 0 0 0 6px var(--primary-light);
-        }
-
-        .timeline-content {
-            width: calc(50% - 50px);
-            padding: 30px;
-            position: relative;
-        }
-
-        /* Left side */
-        .timeline-item:nth-child(odd) .timeline-content {
-            float: left;
-            text-align: right;
-        }
-
-        /* Right side */
-        .timeline-item:nth-child(even) .timeline-content {
-            float: right;
-            text-align: left;
-        }
-
-        /* Clearfix */
-        .timeline-item::after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        .timeline-date {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 12px;
-            letter-spacing: 1px;
-        }
-
-        .timeline-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-            color: var(--secondary);
-        }
-
-        .timeline-content p {
-            color: var(--text-muted);
-            line-height: 1.7;
-        }
-
+        .page-header { padding: 160px 0 60px; text-align: center; }
+        .page-header h1 { font-size: 4rem; font-weight: 800; margin-bottom: 24px; background: linear-gradient(135deg, var(--primary), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .page-header p { font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto; }
+        .agency-image-section { padding: 0 24px 80px; max-width: 1200px; margin: 0 auto; }
+        .agency-photo-wrapper { width: 100%; border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-lg); position: relative; }
+        .agency-photo-wrapper::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 40%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
+        .agency-photo { width: 100%; height: auto; max-height: 600px; object-fit: cover; display: block; transition: transform 0.6s ease; }
+        .agency-photo-wrapper:hover .agency-photo { transform: scale(1.03); }
+        .photo-caption { position: absolute; bottom: 30px; left: 40px; z-index: 10; color: white; }
+        .photo-caption h3 { font-size: 1.75rem; margin-bottom: 8px; color: white; }
+        .timeline-section { padding: 80px 0 120px; background: var(--bg-main); }
+        .timeline-container { max-width: 800px; margin: 0 auto; position: relative; padding: 20px 0; }
+        .timeline-container::before { content: ''; position: absolute; top: 0; bottom: 0; width: 4px; background: linear-gradient(to bottom, var(--primary), var(--accent-purple)); left: 50%; transform: translateX(-50%); border-radius: 4px; }
+        .timeline-item { position: relative; margin-bottom: 60px; width: 100%; }
+        .timeline-dot { position: absolute; width: 24px; height: 24px; background: var(--bg-main); border: 4px solid var(--primary); border-radius: 50%; top: 20px; left: 50%; transform: translateX(-50%); z-index: 2; box-shadow: 0 0 0 6px var(--primary-light); }
+        .timeline-content { width: calc(50% - 50px); padding: 30px; position: relative; transition: transform 0.3s ease; }
+        .timeline-item:nth-child(odd) .timeline-content { float: left; text-align: right; }
+        .timeline-item:nth-child(even) .timeline-content { float: right; text-align: left; }
+        .timeline-item::after { content: ""; display: table; clear: both; }
+        .timeline-date { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; letter-spacing: 1px; }
+        .timeline-content h3 { font-size: 1.5rem; margin-bottom: 12px; color: var(--secondary); }
+        .timeline-content p { color: var(--text-muted); line-height: 1.7; }
         @media (max-width: 768px) {
             .page-header h1 { font-size: 2.5rem; }
-            .agency-photo-wrapper { border-radius: 16px; }
-            .photo-caption { left: 20px; bottom: 20px; }
-            
-            .timeline-container::before {
-                left: 30px;
-            }
-            .timeline-dot {
-                left: 30px;
-            }
-            .timeline-content {
-                width: calc(100% - 70px);
-                float: right !important;
-                text-align: left !important;
-            }
+            .timeline-container::before, .timeline-dot { left: 30px; }
+            .timeline-content { width: calc(100% - 70px); float: right !important; text-align: left !important; }
         }
+        .floating-wa { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: #25d366; color: #FFF; border-radius: 50px; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); z-index: 1000; transition: all 0.3s ease; text-decoration: none; }
+        .floating-wa:hover { transform: scale(1.1); }
+        .social-icons { display: flex; gap: 15px; margin-top: 15px; }
+        .social-icons a { color: #94a3b8; transition: color 0.3s ease, transform 0.3s ease; }
+        .social-icons a:hover { color: #fff; transform: translateY(-3px); }
     </style>
 </head>
 <body>
 
-    <!-- Navigation (Kembali ke Utama) -->
-    <nav class="navbar scrolled" style="box-shadow: var(--shadow-sm);">
+    <!-- Navigation -->
+    <nav class="navbar scrolled">
         <div class="container nav-container">
             <a href="index.html" class="logo" style="display:flex; align-items:center;">
                 <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
@@ -230,28 +64,26 @@
                 Alpha<span>Marketing</span>
             </a>
             <ul class="nav-links">
-                <li><a href="index.html">← Kembali Beranda</a></li>
-                <li><a href="#kisah" style="color: var(--primary);">Sejarah</a></li>
-                <li><a href="index.html#layanan">Layanan</a></li>
-                <li><a href="index.html#testimoni">Testimoni</a></li>
-                <li><a href="index.html#kontak" class="btn-outline">Konsultasi</a></li>
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="layanan.html">Layanan & Skema</a></li>
+                <li><a href="harga.html">Harga & Paket</a></li>
+                <li><a href="about.html" style="color:var(--primary); font-weight:700;">Sejarah</a></li>
+                <li><a href="kontak.html" class="btn-outline">Konsultasi Gratis</a></li>
             </ul>
             <div class="nav-actions">
                 <button id="themeToggle" class="theme-btn" aria-label="Toggle Theme">
-                    <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                    <svg id="sunIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg id="moonIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                 </button>
                 <div class="mobile-menu-btn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Header Sejarah -->
-    <header class="page-header" id="kisah">
+    <header class="page-header" id="kisah" data-aos="fade-up">
         <div class="container">
             <h1>Jejak Langkah Kami</h1>
             <p>Sebuah dedikasi panjang dalam menciptakan inovasi digital yang membantu ratusan bisnis mencapai potensi puncaknya.</p>
@@ -260,13 +92,12 @@
 
     <!-- Agency Photo Showcase -->
     <section class="agency-image-section">
-        <div class="agency-photo-wrapper">
-            <!-- Menghubungkan gambar tim agency yang di-generate AI terbaru -->
-            <img src="C:\Users\USER\.gemini\antigravity\brain\b921756f-539b-436d-9de4-888a85fa3cf5\agency_team_photo_1775533164937.png" alt="Tim Alpha Marketing di Kantor Kaca Premium" class="agency-photo">
-            
+        <div class="agency-photo-wrapper" data-aos="zoom-in" data-aos-delay="200" data-tilt data-tilt-max="2" data-tilt-speed="400">
+            <!-- Updated Image Source -->
+            <img src="agency_team.png" alt="Tim Alpha Marketing" class="agency-photo">
             <div class="photo-caption">
                 <h3>Tim Inti Alpha Marketing</h3>
-                <p style="opacity: 0.9;">Berkolaborasi di markas besar kami yang modern.</p>
+                <p style="opacity: 0.9;">Berkolaborasi dalam menyusun masa depan klien.</p>
             </div>
         </div>
     </section>
@@ -274,59 +105,53 @@
     <!-- Timeline Berurutan -->
     <section class="timeline-section">
         <div class="container">
-            <div class="section-header fade-in-up">
+            <div class="section-header" data-aos="fade-up">
                 <h2>Sejarah Pertumbuhan</h2>
                 <p>Bagaimana kami berawal menjadi pondasi kokoh bagi kesuksesan pemasaran Anda.</p>
             </div>
             
             <div class="timeline-container">
-                
-                <!-- 2018 -->
-                <div class="timeline-item fade-in-up">
+                <div class="timeline-item" data-aos="fade-right">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-content glass-card">
+                    <!-- Added Tilt capability to cards -->
+                    <div class="timeline-content glass-card" data-tilt data-tilt-max="5" data-tilt-speed="400">
                         <div class="timeline-date">2018</div>
                         <h3>Awal Mula Terbentuk</h3>
-                        <p>Berdiri dengan nama awal *Nexus Digital* sebagai laboratorium pemasaran skala kecil oleh tiga orang visioner di sebuah ruangan sederhana. Fokus kami hanya pada keakuratan analisis data klien lokal.</p>
+                        <p>Berdiri sebagai laboratorium pemasaran skala kecil oleh tiga orang visioner di sebuah ruangan sederhana. Fokus pada keakuratan analisis data klien lokal.</p>
                     </div>
                 </div>
 
-                <!-- 2021 -->
-                <div class="timeline-item fade-in-up delay-1">
+                <div class="timeline-item" data-aos="fade-left">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-content glass-card">
+                    <div class="timeline-content glass-card" data-tilt data-tilt-max="5" data-tilt-speed="400">
                         <div class="timeline-date">2021</div>
                         <h3>Ekspansi Skala Nasional</h3>
-                        <p>Kepercayaan pelanggan meroket akibat tingginya retensi ROI klien. Tim kami berkembang pesat menjadi lebih dari 50 ahli, dan mulai menangani klien perbankan serta merek tingkat nasional.</p>
+                        <p>Kepercayaan pelanggan meroket akibat tingginya retensi ROI klien. Tim berkembang pesat menjaga kampanye merk korporasi nasional.</p>
                     </div>
                 </div>
 
-                <!-- 2023 -->
-                <div class="timeline-item fade-in-up delay-1">
+                <div class="timeline-item" data-aos="fade-right">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-content glass-card">
+                    <div class="timeline-content glass-card" data-tilt data-tilt-max="5" data-tilt-speed="400">
                         <div class="timeline-date">2023</div>
                         <h3>Inovasi & Penghargaan</h3>
-                        <p>Meraih gelar "Best Digital Agency of The Year" karena telah memperkenalkan metodologi kampanye Omnichannel terintegrasi yang sepenuhnya menghilangkan tebakan (*guesswork*) pada target pasar.</p>
+                        <p>Meraih gelar "Best Digital Agency of The Year" setelah memperkenalkan metodologi konversi tak terbatas berbasis Artificial Intelligence.</p>
                     </div>
                 </div>
 
-                <!-- 2026 -->
-                <div class="timeline-item fade-in-up delay-2">
+                <div class="timeline-item" data-aos="fade-left">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-content glass-card" style="border: 2px solid var(--primary); box-shadow: var(--shadow-glow);">
+                    <div class="timeline-content glass-card" data-tilt data-tilt-max="5" data-tilt-speed="400" style="border: 2px solid var(--primary); box-shadow: var(--shadow-glow);">
                         <div class="timeline-date">2026</div>
                         <h3>Era Alpha Marketing</h3>
-                        <p>Re-branding resmi ke **Alpha Marketing**. Sistem AI otomatis dan optimasi algoritmik milik kami mampu meledakkan omset bisnis dalam jumlah dramatis. Ini adalah momen kami mendominasi ekosistem pemasaran modern. Bersama kami, saatnya giliran kesuksesan Anda.</p>
+                        <p>Tiba di masa puncak. Alpha Marketing hadir merevolusi metrik dan garansi uang kembali. Mengawal omset Anda meledak menembus awan tanpa rasa takut.</p>
                     </div>
                 </div>
-
             </div>
             
-            <div style="text-align: center; margin-top: 80px;">
-                <a href="index.html#kontak" class="btn-primary" style="padding: 16px 32px; font-size: 1.125rem;">Tulis Sejarah Baru Anda Bersama Kami</a>
+            <div style="text-align: center; margin-top: 80px;" data-aos="fade-up">
+                <a href="kontak.html" class="btn-primary" style="padding: 16px 32px; font-size: 1.125rem;">Tulis Sejarah Baru Bersama Kami</a>
             </div>
-            
         </div>
     </section>
 
@@ -334,25 +159,20 @@
     <footer>
         <div class="container footer-container">
             <div class="footer-brand">
-                <a href="index.html" class="logo" style="display:flex; align-items:center; margin-bottom: 16px;">
-                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
-                        <path d="M16 2L2 28H11.5L16 19.5L20.5 28H30L16 2Z" fill="url(#paint0_linear_footer_about)"/>
-                        <defs>
-                            <linearGradient id="paint0_linear_footer_about" x1="16" y1="2" x2="16" y2="28" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#4F46E5"/>
-                                <stop offset="1" stop-color="#8B5CF6"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                    Alpha<span>Marketing</span>
-                </a>
+                <h3 style="color:white; margin-bottom:10px;">Alpha Marketing</h3>
                 <p>Bagian Integral dari Sejarah Sukses Pemasaran Digital Anda.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                </div>
             </div>
             <div class="footer-links">
                 <h4>Perusahaan</h4>
                 <ul>
-                    <li><a href="index.html#layanan">Kembali ke Beranda</a></li>
-                    <li><a href="#">Privasi</a></li>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="layanan.html">Skema</a></li>
+                    <li><a href="kontak.html">Konsultasi</a></li>
                 </ul>
             </div>
         </div>
@@ -361,7 +181,15 @@
         </div>
     </footer>
 
-    <!-- Script untuk animasi dan Dark Mode dll. -->
+    <!-- Floating WA -->
+    <a href="#" class="floating-wa">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.005-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
+    <script> AOS.init({ once: true, offset: 50 }); </script>
 </body>
 </html>

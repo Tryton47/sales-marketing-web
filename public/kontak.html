@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hubungi Kami | Alpha Marketing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .subpage-hero { padding: 150px 0 80px; text-align: center; }
+        .subpage-hero h1 { font-size: 3rem; margin-bottom: 20px; }
+        
+        .floating-wa {
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+            background-color: #25d366; color: #FFF; border-radius: 50px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); z-index: 1000; transition: all 0.3s ease; text-decoration: none;
+        }
+        
+        /* Two columns container logic for contact */
+        .split-forms { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: -30px; padding-bottom: 100px; }
+        @media screen and (max-width: 900px) {
+            .split-forms { grid-template-columns: 1fr; }
+        }
+        
+        .form-card { padding: 40px; }
+        .form-card h2 { margin-bottom: 15px; color: var(--primary); font-size: 1.8rem; }
+        .form-card p { margin-bottom: 30px; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar scrolled">
+        <div class="container nav-container">
+            <a href="index.html" class="logo" style="display:flex; align-items:center;">
+                <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+                    <path d="M16 2L2 28H11.5L16 19.5L20.5 28H30L16 2Z" fill="url(#paint0_linear_logo)"/>
+                </svg>
+                Alpha<span>Marketing</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="layanan.html">Layanan & Skema</a></li>
+                <li><a href="harga.html">Harga & Paket</a></li>
+                <li><a href="about.html">Sejarah</a></li>
+                <li><a href="kontak.html" class="btn-outline" style="background:var(--primary);color:var(--bg-white);">Konsultasi Gratis</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="themeToggle" class="theme-btn" aria-label="Toggle Theme">
+                    <svg id="moonIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                </button>
+                <div class="mobile-menu-btn">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Subpage Hero -->
+    <section class="subpage-hero" data-aos="fade-in">
+        <div class="container">
+            <h1>Mari Berkolaborasi</h1>
+            <p>Pilih form pemesanan jasa jika Anda sudah yakin, atau isi form pertanyaan jika masih ingin berdiskusi.</p>
+        </div>
+    </section>
+
+    <!-- Forms Section -->
+    <section class="container split-forms">
+        <!-- FORM 1: PEMESANAN (ORDERS) -->
+        <div class="glass-card form-card" data-aos="fade-right" data-tilt data-tilt-max="2" data-tilt-speed="400">
+            <h2>🥇 Pesan Layanan</h2>
+            <p>Formulir eksklusif untuk memulai ekspansi bisnis Anda bersama Alpha Marketing.</p>
+            
+            <form id="leadForm" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Nama Lengkap</label>
+                    <input type="text" id="name" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Alamat Email Aktif</label>
+                    <input type="email" id="email" placeholder="john@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="whatsapp">Nomor WhatsApp Aktif</label>
+                    <input type="tel" id="whatsapp" placeholder="081234567890" required>
+                </div>
+                <div class="form-group">
+                    <label for="interest">Pilihan Jasa / Paket</label>
+                    <select id="interest" class="form-select" required style="width:100%; padding: 14px 16px; border: 1px solid var(--border-color); border-radius:8px; background:var(--bg-white); color:var(--text-main); font-size:1rem; margin-top:8px;">
+                        <optgroup label="🔥 Paket Bundling Premium">
+                            <option value="Sosmed Starter">Paket Sosmed Starter (Rp 1.500k)</option>
+                            <option value="Bundel Sultan All-In" selected>Bundel Sultan All-In (Rp 5.900k)</option>
+                            <option value="Paket Sinematik">Paket Sinematik Promo (Rp 3.500k)</option>
+                        </optgroup>
+                        <optgroup label="🛒 Jasa A La Carte (Eceran)">
+                            <option value="Desain Logo">Desain Logo Profesional (Rp 500k)</option>
+                            <option value="Desain Brosur">Desain Brosur/Pamflet (Rp 150k)</option>
+                            <option value="Jasa Edit Video">Jasa Edit Video Mentah (Rp 300k)</option>
+                            <option value="Setup Iklan Meta">Setup Iklan Meta Ads (Rp 800k)</option>
+                            <option value="Dokumentasi Acara">Dokumentasi Acara Event (Rp 750k)</option>
+                            <option value="Custom / Lainnya">Layanan Kustom / Konsultasi Lainnya</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn-primary full-width" style="font-size: 1.1rem; padding: 14px;">Kirim Request Konsultasi</button>
+                </div>
+            </form>
+
+            <div id="successModal" class="success-modal hidden">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <h3>Pesan Diterima!</h3>
+                <p>Terima kasih, <span id="successName"></span>. Tim strategis kami akan membalas email Anda maksimal 1x24 Jam.</p>
+                <button id="resetFormBtn" class="btn-secondary mt-3 full-width">Kirim Berkas Baru</button>
+            </div>
+        </div>
+
+        <!-- FORM 2: TANYA JAWAB (CONTACTS) -->
+        <div class="glass-card form-card" data-aos="fade-left" data-tilt data-tilt-max="2" data-tilt-speed="400">
+            <h2 style="color:var(--text-main);">💬 Punya Pertanyaan?</h2>
+            <p>Konsultasikan kendala bisnis atau tanya perihal kerjasama bisnis.</p>
+            
+            <form id="contactMessageForm" class="contact-form">
+                <div class="form-group">
+                    <label for="contactName">Nama Anda</label>
+                    <input type="text" id="contactName" placeholder="Contoh: Sarah Connor" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Email yang Sering Dibuka</label>
+                    <input type="email" id="contactEmail" placeholder="sarah@corp.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactWhatsapp">Nomor WhatsApp / HP</label>
+                    <input type="tel" id="contactWhatsapp" placeholder="081234..." required>
+                </div>
+                <div class="form-group">
+                    <label for="contactMessage">Pesan/Pertanyaan</label>
+                    <textarea id="contactMessage" rows="4" placeholder="Tuliskan kendala penjualan yang Anda alami saat ini..." required style="width:100%; padding: 14px 16px; border: 1px solid var(--border-color); border-radius:8px; background:var(--bg-white); color:var(--text-main); font-family: inherit; font-size:1rem; resize: vertical; margin-top:8px; margin-bottom: 8px;"></textarea>
+                </div>
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn-secondary full-width" style="font-size: 1.1rem; padding: 14px;">Kirim Pesan</button>
+                </div>
+            </form>
+
+            <div id="contactSuccessModal" class="success-modal hidden">
+                <div class="success-icon" style="background:var(--accent-purple); box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <h3>Pesan Terkirim!</h3>
+                <p>Terima kasih, <span id="contactSuccessName"></span>. Keluhan/pertanyaan Anda telah masuk ke dalam sistem CS kami.</p>
+                <button id="resetContactBtn" class="btn-outline mt-3 full-width">Tulis Pertanyaan Lainnya</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <h3 style="color:white; margin-bottom:10px;">Alpha Marketing</h3>
+                <p>Siap meledakkan omset Anda hari ini?</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navigasi</h4>
+                <ul>
+                    <li><a href="layanan.html">Skema Layanan</a></li>
+                    <li><a href="harga.html">Harga & Paket</a></li>
+                    <li><a href="login.html">Dasbor Admin</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WA -->
+    <a href="#" class="floating-wa">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.005-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+    <script> 
+        AOS.init({ once: true, offset: 50 }); 
+        
+        // Auto-select package based on URL Parameter
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const layanan = urlParams.get('layanan');
+            if(layanan) {
+                const selectElement = document.getElementById('interest');
+                if(selectElement) {
+                    for(let i = 0; i < selectElement.options.length; i++) {
+                        if(selectElement.options[i].value === layanan) {
+                            selectElement.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
