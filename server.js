@@ -1,5 +1,5 @@
 const express = require('express');
-const mysql = require('mysql2');
+const { Pool } = require('pg');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -8,20 +8,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public')); // serve file HTML/CSS/JS kamu
 
-// Koneksi ke MySQL
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
+// Koneksi ke PostgreSQL (Neon)
+const db = new Pool({
+  connectionString: process.env.DATABASE_URL,
 });
 
-db.connect((err) => {
+db.connect((err, client, release) => {
   if (err) {
-    console.error('Gagal koneksi ke database:', err);
+    console.error('Gagal koneksi ke database:', err.stack);
     return;
   }
-  console.log('Berhasil konek ke MySQL!');
+  console.log('Berhasil konek ke Neon PostgreSQL!');
+  release();
 });
 
 // Endpoint untuk menyimpan order
@@ -33,7 +31,7 @@ app.post('/api/orders', (req, res) => {
     return res.status(400).json({ error: 'Semua field (nama, email, whatsapp, paket) harus diisi' });
   }
 
-  const query = 'INSERT INTO orders (nama, email, whatsapp, paket) VALUES (?, ?, ?, ?)';
+  const query = 'INSERT INTO orders (nama, email, whatsapp, paket) VALUES ($1, $2, $3, $4) RETURNING id';
   db.query(query, [nama, email, whatsapp, paket], (err, results) => {
     if (err) {
       console.error('Gagal menyimpan pesanan:', err);
@@ -42,7 +40,7 @@ app.post('/api/orders', (req, res) => {
     
     res.status(201).json({ 
       message: 'Pesanan berhasil dikirim!', 
-      orderId: results.insertId 
+      orderId: results.rows[0].id 
     });
   });
 });
@@ -56,7 +54,7 @@ app.post('/api/contacts', (req, res) => {
     return res.status(400).json({ error: 'Semua field (nama, email, whatsapp, pesan) harus diisi' });
   }
 
-  const query = 'INSERT INTO contacts (nama, email, whatsapp, pesan) VALUES (?, ?, ?, ?)';
+  const query = 'INSERT INTO contacts (nama, email, whatsapp, pesan) VALUES ($1, $2, $3, $4) RETURNING id';
   db.query(query, [nama, email, whatsapp, pesan], (err, results) => {
     if (err) {
       console.error('Gagal menyimpan pesan kontak:', err);
@@ -65,7 +63,7 @@ app.post('/api/contacts', (req, res) => {
     
     res.status(201).json({ 
       message: 'Pesan kontak berhasil dikirim!', 
-      contactId: results.insertId 
+      contactId: results.rows[0].id 
     });
   });
 });
@@ -75,7 +73,7 @@ app.get('/api/orders', (req, res) => {
   const sql = 'SELECT * FROM orders ORDER BY created_at DESC';
   db.query(sql, (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json(results);
+    res.json(results.rows);
   });
 });
 
@@ -83,7 +81,7 @@ app.get('/api/orders', (req, res) => {
 app.put('/api/orders/:id', (req, res) => {
   const { status } = req.body;
   const { id } = req.params;
-  const sql = 'UPDATE orders SET status = ? WHERE id = ?';
+  const sql = 'UPDATE orders SET status = $1 WHERE id = $2';
   db.query(sql, [status, id], (err) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json({ message: 'Status berhasil diupdate' });
@@ -95,7 +93,7 @@ app.get('/api/contacts', (req, res) => {
   const sql = 'SELECT * FROM contacts ORDER BY created_at DESC';
   db.query(sql, (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json(results);
+    res.json(results.rows);
   });
 });
 
