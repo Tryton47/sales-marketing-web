@@ -84,7 +84,7 @@ Sekarang saatnya menghidupkan *Back-end* (mesin roda gigi perantara *frontend* H
    ```
 5. Terminal seharusnya menjawab ramah:
    > Server berjalan di http://localhost:3000
-   > Berhasil konek ke MySQL!
+   > BERHASIL KONEK CIHUYYYYY!!!
 
 ## TAHAP 5: Uji Coba Kinerja Penyatuan (Frontend -> Backend)
 1. Buka aplikasi peramban (*browser*) misal Chrome, isikan pada kolom pencarian URL: 

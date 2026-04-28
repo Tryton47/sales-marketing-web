@@ -18,7 +18,7 @@ db.connect((err, client, release) => {
     console.error('Gagal koneksi ke database:', err.stack);
     return;
   }
-  console.log('Berhasil konek ke Neon PostgreSQL!');
+  console.log('BERHASIL KONEK CIHUYYYYY!!!');
   release();
 });
 
