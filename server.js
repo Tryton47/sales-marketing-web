@@ -97,10 +97,15 @@ app.get('/api/contacts', (req, res) => {
   });
 });
 
-// Jalankan server
-app.listen(process.env.PORT, () => {
-  console.log(`Server berjalan di http://localhost:${process.env.PORT}`);
-});
+// Jalankan server hanya jika tidak berjalan di Vercel (dideteksi dari VERCEL env)
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server berjalan di http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
 
 // ==============================
 // KONFIGURASI MINIO
