@@ -107,9 +107,9 @@ h1, h2, h3, h4 { color: var(--secondary); transition: color 0.4s ease; }
 [data-theme="dark"] .hero::after { background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, rgba(0,0,0,0) 70%); }
 
 .hero-container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.hero-content h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 24px; letter-spacing: -1px; }
+.hero-content h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 24px; letter-spacing: -1px; color: #ffffff !important; }
 .hero-content h1 span { background: linear-gradient(135deg, var(--primary), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.hero-content p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 40px; }
+.hero-content p { font-size: 1.25rem; color: #e2e8f0 !important; margin-bottom: 40px; }
 .hero-buttons { display: flex; gap: 16px; }
 
 .mockup-card { padding: 24px; position: relative; transform: perspective(1000px) rotateY(-5deg) rotateX(5deg); transition: var(--transition); }
