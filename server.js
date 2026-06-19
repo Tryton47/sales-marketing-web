@@ -97,6 +97,162 @@ app.get('/api/contacts', (req, res) => {
   });
 });
 
+// ==============================
+// ENDPOINT TRACKING PENGUNJUNG
+// ==============================
+const crypto = require('crypto');
+
+// POST /api/track — terima data kunjungan dari frontend
+app.post('/api/track', async (req, res) => {
+  try {
+    const { page, referrer, user_agent, device_type, duration_seconds } = req.body;
+
+    // Dapatkan IP pengunjung
+    const rawIp = req.headers['x-forwarded-for']?.split(',')[0]?.trim()
+      || req.headers['x-real-ip']
+      || req.connection?.remoteAddress
+      || '0.0.0.0';
+
+    // Hash IP untuk privasi (tidak simpan IP asli)
+    const ipHash = crypto.createHash('sha256').update(rawIp).digest('hex');
+
+    // Geolocation: Gunakan header Vercel jika tersedia (gratis, tanpa API eksternal)
+    // Di local dev, nilainya akan undefined/null
+    const country = req.headers['x-vercel-ip-country'] || null;
+    const city = req.headers['x-vercel-ip-city']
+      ? decodeURIComponent(req.headers['x-vercel-ip-city'])
+      : null;
+
+    const query = `
+      INSERT INTO page_visits (page, referrer, user_agent, device_type, country, city, duration_seconds, ip_hash)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    `;
+    await db.query(query, [
+      page || 'Unknown',
+      referrer || 'Direct / Bookmark',
+      user_agent || null,
+      device_type || 'Desktop',
+      country || null,
+      city || null,
+      duration_seconds || 0,
+      ipHash,
+    ]);
+
+    res.status(201).json({ ok: true });
+  } catch (err) {
+    // Jangan sampai error tracking merusak UX pengunjung
+    console.error('Track error:', err.message);
+    res.status(500).json({ ok: false });
+  }
+});
+
+// GET /api/analytics — ringkasan analytics untuk admin dashboard
+app.get('/api/analytics', async (req, res) => {
+  try {
+    // 1. Total views hari ini
+    const todayViews = await db.query(`
+      SELECT COUNT(*) as count FROM page_visits
+      WHERE created_at >= NOW() AT TIME ZONE 'Asia/Jakarta' - INTERVAL '1 day'
+    `);
+
+    // 2. Total unique visitors (by IP hash) hari ini
+    const todayUnique = await db.query(`
+      SELECT COUNT(DISTINCT ip_hash) as count FROM page_visits
+      WHERE created_at >= NOW() - INTERVAL '1 day'
+    `);
+
+    // 3. Total views semua waktu
+    const totalViews = await db.query(`SELECT COUNT(*) as count FROM page_visits`);
+
+    // 4. Total unique visitors semua waktu
+    const totalUnique = await db.query(`SELECT COUNT(DISTINCT ip_hash) as count FROM page_visits`);
+
+    // 5. Rata-rata durasi baca (dalam detik), abaikan durasi 0
+    const avgDuration = await db.query(`
+      SELECT ROUND(AVG(duration_seconds)) as avg_dur FROM page_visits
+      WHERE duration_seconds > 0
+    `);
+
+    // 6. Grafik kunjungan 7 hari terakhir
+    const last7Days = await db.query(`
+      SELECT
+        TO_CHAR(created_at AT TIME ZONE 'Asia/Jakarta', 'DD Mon') as day,
+        COUNT(*) as views,
+        COUNT(DISTINCT ip_hash) as unique_visitors
+      FROM page_visits
+      WHERE created_at >= NOW() - INTERVAL '7 days'
+      GROUP BY TO_CHAR(created_at AT TIME ZONE 'Asia/Jakarta', 'DD Mon'),
+               DATE_TRUNC('day', created_at AT TIME ZONE 'Asia/Jakarta')
+      ORDER BY DATE_TRUNC('day', created_at AT TIME ZONE 'Asia/Jakarta') ASC
+    `);
+
+    // 7. Halaman terpopuler (Top 6)
+    const topPages = await db.query(`
+      SELECT page, COUNT(*) as views, COUNT(DISTINCT ip_hash) as unique_visitors
+      FROM page_visits
+      GROUP BY page
+      ORDER BY views DESC
+      LIMIT 6
+    `);
+
+    // 8. Distribusi device
+    const deviceStats = await db.query(`
+      SELECT device_type, COUNT(*) as count
+      FROM page_visits
+      GROUP BY device_type
+      ORDER BY count DESC
+    `);
+
+    // 9. Sumber referrer (Top 8)
+    const referrerStats = await db.query(`
+      SELECT referrer, COUNT(*) as count
+      FROM page_visits
+      WHERE referrer IS NOT NULL
+      GROUP BY referrer
+      ORDER BY count DESC
+      LIMIT 8
+    `);
+
+    // 10. Kunjungan terbaru (50 terakhir)
+    const recentVisits = await db.query(`
+      SELECT page, referrer, device_type, country, city, duration_seconds, created_at
+      FROM page_visits
+      ORDER BY created_at DESC
+      LIMIT 50
+    `);
+
+    // 11. Negara teratas (Top 5)
+    const topCountries = await db.query(`
+      SELECT
+        COALESCE(country, 'Unknown') as country,
+        COUNT(*) as visits
+      FROM page_visits
+      GROUP BY country
+      ORDER BY visits DESC
+      LIMIT 5
+    `);
+
+    res.json({
+      summary: {
+        todayViews: parseInt(todayViews.rows[0].count),
+        todayUnique: parseInt(todayUnique.rows[0].count),
+        totalViews: parseInt(totalViews.rows[0].count),
+        totalUnique: parseInt(totalUnique.rows[0].count),
+        avgDurationSeconds: parseInt(avgDuration.rows[0].avg_dur) || 0,
+      },
+      last7Days: last7Days.rows,
+      topPages: topPages.rows,
+      deviceStats: deviceStats.rows,
+      referrerStats: referrerStats.rows,
+      recentVisits: recentVisits.rows,
+      topCountries: topCountries.rows,
+    });
+  } catch (err) {
+    console.error('Analytics error:', err.message);
+    res.status(500).json({ error: 'Gagal mengambil data analytics' });
+  }
+});
+
 // Jalankan server hanya jika tidak berjalan di Vercel (dideteksi dari VERCEL env)
 if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
   const PORT = process.env.PORT || 3000;
