@@ -99,6 +99,12 @@ h1, h2, h3, h4 { color: var(--secondary); transition: color 0.4s ease; }
 .mobile-menu-btn { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
 .mobile-menu-btn span { width: 25px; height: 3px; background-color: var(--secondary); border-radius: 3px; transition: var(--transition); }
 
+/* Force light text on transparent navbar because Vanta 3D background is dark */
+.navbar:not(.scrolled) .logo,
+.navbar:not(.scrolled) .logo span,
+.navbar:not(.scrolled) .nav-links a { color: #ffffff !important; }
+.navbar:not(.scrolled) .mobile-menu-btn span { background-color: #ffffff !important; }
+
 /* Hero Section */
 .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 80px; position: relative; overflow: hidden; }
 .hero::before { content: ''; position: absolute; top: -10%; right: -5%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, rgba(255,255,255,0) 70%); border-radius: 50%; z-index: -1; }
