@@ -8,7 +8,7 @@
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
@@ -52,7 +52,7 @@
     <!-- Navigation -->
     <nav class="navbar scrolled">
         <div class="container nav-container">
-            <a href="index.html" class="logo" style="display:flex; align-items:center;">
+            <a href="home.html" class="logo" style="display:flex; align-items:center;">
                 <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
                     <path d="M16 2L2 28H11.5L16 19.5L20.5 28H30L16 2Z" fill="url(#paint0_linear_logo_about)"/>
                     <defs>
@@ -65,17 +65,13 @@
                 Alpha<span>Marketing</span>
             </a>
             <ul class="nav-links">
-                <li><a href="index.html">Beranda</a></li>
+                <li><a href="home.html">Beranda</a></li>
                 <li><a href="layanan.html">Layanan & Skema</a></li>
                 <li><a href="harga.html">Harga & Paket</a></li>
                 <li><a href="about.html" style="color:var(--primary); font-weight:700;">Sejarah</a></li>
-                <li><a href="kontak.html" class="btn-outline">Konsultasi Gratis</a></li>
+                <li style="margin-left:10px;"><a href="kontak.html" class="btn-outline">Konsultasi Gratis</a></li>
             </ul>
             <div class="nav-actions">
-                <button id="themeToggle" class="theme-btn" aria-label="Toggle Theme">
-                    <svg id="moonIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                    <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                </button>
                 <div class="mobile-menu-btn">
                     <span></span><span></span><span></span>
                 </div>
@@ -95,7 +91,7 @@
     <section class="agency-image-section">
         <div class="agency-photo-wrapper" data-aos="zoom-in" data-aos-delay="200" data-tilt data-tilt-max="2" data-tilt-speed="400">
             <!-- Updated Image Source -->
-            <img src="agency_team.png" alt="Tim Alpha Marketing" class="agency-photo">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Tim Alpha Marketing" class="agency-photo">
             <div class="photo-caption">
                 <h3>Tim Inti Alpha Marketing</h3>
                 <p style="opacity: 0.9;">Berkolaborasi dalam menyusun masa depan klien.</p>
@@ -112,40 +108,43 @@
             </div>
             
             <div class="timeline-container">
-                <div class="timeline-item" data-aos="fade-right">
+                <div class="timeline-item reveal from-left" data-aos="fade-right">
                     <div class="timeline-dot"></div>
-                    <!-- Added Tilt capability to cards -->
-                    <div class="timeline-content glass-card" data-tilt data-tilt-max="5" data-tilt-speed="400">
+                    <div class="timeline-content glass-border" data-tilt data-tilt-max="5" data-tilt-speed="400" style="border-radius:16px;">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="2018 Awal Mula" class="timeline-img">
                         <div class="timeline-date">2018</div>
                         <h3>Awal Mula Terbentuk</h3>
-                        <p>Berdiri sebagai laboratorium pemasaran skala kecil oleh tiga orang visioner di sebuah ruangan sederhana. Fokus pada keakuratan analisis data klien lokal.</p>
+                        <p>Berdiri sebagai laboratorium pemasaran skala kecil oleh tiga orang visioner di sebuah ruangan sederhana. Fokus pada keakuratan analisis data klien lokal dan membangun pondasi metodologi kerja.</p>
                     </div>
                 </div>
 
-                <div class="timeline-item" data-aos="fade-left">
+                <div class="timeline-item reveal from-right" data-aos="fade-left">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-content glass-card" data-tilt data-tilt-max="5" data-tilt-speed="400">
+                    <div class="timeline-content glass-border" data-tilt data-tilt-max="5" data-tilt-speed="400" style="border-radius:16px;">
+                        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="2021 Ekspansi" class="timeline-img">
                         <div class="timeline-date">2021</div>
                         <h3>Ekspansi Skala Nasional</h3>
-                        <p>Kepercayaan pelanggan meroket akibat tingginya retensi ROI klien. Tim berkembang pesat menjaga kampanye merk korporasi nasional.</p>
+                        <p>Kepercayaan pelanggan meroket akibat tingginya retensi ROI klien. Tim berkembang pesat menjadi 25 spesialis, menjaga kampanye merk korporasi nasional di berbagai sektor industri.</p>
                     </div>
                 </div>
 
-                <div class="timeline-item" data-aos="fade-right">
+                <div class="timeline-item reveal from-left" data-aos="fade-right">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-content glass-card" data-tilt data-tilt-max="5" data-tilt-speed="400">
+                    <div class="timeline-content glass-border" data-tilt data-tilt-max="5" data-tilt-speed="400" style="border-radius:16px;">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="2023 Inovasi" class="timeline-img">
                         <div class="timeline-date">2023</div>
                         <h3>Inovasi & Penghargaan</h3>
-                        <p>Meraih gelar "Best Digital Agency of The Year" setelah memperkenalkan metodologi konversi tak terbatas berbasis Artificial Intelligence.</p>
+                        <p>Meraih gelar "Best Digital Agency of The Year" setelah memperkenalkan metodologi konversi tak terbatas berbasis Artificial Intelligence dan machine learning untuk prediksi pasar.</p>
                     </div>
                 </div>
 
-                <div class="timeline-item" data-aos="fade-left">
+                <div class="timeline-item reveal from-right" data-aos="fade-left">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-content glass-card" data-tilt data-tilt-max="5" data-tilt-speed="400" style="border: 2px solid var(--primary); box-shadow: var(--shadow-glow);">
+                    <div class="timeline-content glass-border" data-tilt data-tilt-max="5" data-tilt-speed="400" style="border: 2px solid var(--primary); box-shadow: var(--shadow-glow); border-radius:16px;">
+                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="2026 Era Baru" class="timeline-img">
                         <div class="timeline-date">2026</div>
                         <h3>Era Alpha Marketing</h3>
-                        <p>Tiba di masa puncak. Alpha Marketing hadir merevolusi metrik dan garansi uang kembali. Mengawal omset Anda meledak menembus awan tanpa rasa takut.</p>
+                        <p>Tiba di masa puncak. Alpha Marketing hadir merevolusi metrik dan garansi uang kembali. Mengawal omset klien meledak menembus awan dengan teknologi dan kreativitas tanpa batas.</p>
                     </div>
                 </div>
             </div>
@@ -171,7 +170,7 @@
             <div class="footer-links">
                 <h4>Perusahaan</h4>
                 <ul>
-                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="home.html">Beranda</a></li>
                     <li><a href="layanan.html">Skema</a></li>
                     <li><a href="kontak.html">Konsultasi</a></li>
                 </ul>

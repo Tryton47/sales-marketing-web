@@ -6,21 +6,237 @@ require('dotenv').config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public')); // serve file HTML/CSS/JS kamu
+// Serve static files EXCEPT override root route below
+app.use(express.static('public'));
 
-// Koneksi ke PostgreSQL (Neon)
+
+// ==============================
+// KONEKSI DATABASE (PostgreSQL)
+// ==============================
 const db = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-db.connect((err, client, release) => {
+db.connect(async (err, client, release) => {
   if (err) {
     console.error('Gagal koneksi ke database:', err.stack);
     return;
   }
-  console.log('BERHASIL KONEK CIHUYYYYY!!!');
+  console.log('Database connected successfully.');
+  try {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        google_id VARCHAR(255) UNIQUE NOT NULL,
+        nama VARCHAR(255) NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
+        role VARCHAR(50) DEFAULT 'tamu',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // Paket Catalog Table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS paket_catalog (
+        id SERIAL PRIMARY KEY,
+        kode VARCHAR(50) UNIQUE NOT NULL,
+        nama VARCHAR(255) NOT NULL,
+        kategori VARCHAR(50) NOT NULL,
+        harga INTEGER NOT NULL,
+        satuan VARCHAR(50) NOT NULL,
+        deskripsi TEXT,
+        fitur JSONB,
+        is_popular BOOLEAN DEFAULT FALSE,
+        urutan INTEGER DEFAULT 0
+      )
+    `);
+
+    // Seed data if empty
+    const count = await client.query('SELECT COUNT(*) FROM paket_catalog');
+    if (parseInt(count.rows[0].count) === 0) {
+      const seedData = [
+        { kode: 'sosmed-starter', nama: 'Sosial Media Starter', kategori: 'bundling', harga: 1500000, satuan: 'bulan', fitur: ['15 Desain Feed & Story Premium','Copywriting berbasis konversi','1x Sesi Liputan Foto Lokasi','Laporan Analitik Bulanan'], popular: false, urutan: 1 },
+        { kode: 'sosmed-pro', nama: 'Sosial Media Professional', kategori: 'bundling', harga: 2800000, satuan: 'bulan', fitur: ['25 Desain Feed & Story','2x Video Reels per bulan','Manajemen DM & Komentar','Laporan Analytics Mingguan','Optimasi Hashtag & Caption'], popular: false, urutan: 2 },
+        { kode: 'sultan-allin', nama: 'Bundel Sultan All-In', kategori: 'bundling', harga: 5900000, satuan: 'bulan', fitur: ['30 Konten Feed & Story Harian','4x Produksi Video Reels Profesional','Pengelolaan Meta Ads & Google Ads','Dokumentasi Event Utama','1 Landing Page Premium','Laporan ROI Bulanan'], popular: true, urutan: 3 },
+        { kode: 'sinematik', nama: 'Paket Sinematik & Dokumentasi', kategori: 'bundling', harga: 3500000, satuan: 'proyek', fitur: ['Full-day Syuting Profesional','Resolusi 4K + Drone Berlisensi','1 Video Company Profile','3 Short Video (Reels/TikTok)','Color Grading Sinematik'], popular: false, urutan: 4 },
+        { kode: 'web-bisnis', nama: 'Paket Website Bisnis', kategori: 'bundling', harga: 4500000, satuan: 'proyek', fitur: ['Desain UI/UX Eksklusif & Modern','Domain (.com/.id) + Hosting 1 Tahun','Sistem CMS (Kelola Konten Sendiri)','Optimasi SEO Fundamental','Responsif Mobile & Tablet'], popular: false, urutan: 5 },
+        { kode: 'ads-management', nama: 'Manajemen Iklan Digital', kategori: 'bundling', harga: 2200000, satuan: 'bulan', fitur: ['Setup & Optimasi Meta Ads','Setup & Optimasi Google Ads','Target Audience Riset','A/B Testing Iklan','Laporan Performa Mingguan'], popular: false, urutan: 6 },
+        { kode: 'logo', nama: 'Desain Logo Profesional', kategori: 'satuan', harga: 500000, satuan: 'proyek', fitur: ['Format Vector (AI, EPS, SVG)','3x Revisi Gratis','Manual Brand Guidelines'], popular: false, urutan: 7 },
+        { kode: 'brosur', nama: 'Desain Brosur & Pamflet', kategori: 'satuan', harga: 150000, satuan: 'item', fitur: ['Format siap cetak (CMYK)','Format digital (RGB)','1x Revisi'], popular: false, urutan: 8 },
+        { kode: 'edit-video', nama: 'Editing Video Konten', kategori: 'satuan', harga: 300000, satuan: 'video', fitur: ['Durasi raw max 15 menit','Subtitle & Motion Graphic','Color Grading'], popular: false, urutan: 9 },
+        { kode: 'ads-setup', nama: 'Setup Iklan Meta/Google', kategori: 'satuan', harga: 800000, satuan: 'proyek', fitur: ['Konfigurasi Pixel/Tag','Pembuatan Materi Iklan','Riset Audience Target'], popular: false, urutan: 10 },
+        { kode: 'event-photo', nama: 'Dokumentasi Event (Foto)', kategori: 'satuan', harga: 750000, satuan: 'sesi', fitur: ['Half-day (maks 5 jam)','100+ foto terseleksi','Editing & retouching'], popular: false, urutan: 11 },
+        { kode: 'landing-page', nama: 'Landing Page Konversi', kategori: 'satuan', harga: 1500000, satuan: 'proyek', fitur: ['Desain custom 1 halaman panjang','Formulir & CTA terintegrasi','Hosting gratis 6 bulan'], popular: false, urutan: 12 },
+        { kode: 'foto-produk', nama: 'Foto Produk Katalog', kategori: 'satuan', harga: 400000, satuan: 'sesi', fitur: ['Maks 20 produk per sesi','Background & properti tersedia','Editing profesional'], popular: false, urutan: 13 },
+        { kode: 'custom', nama: 'Paket Custom / Diskusi', kategori: 'satuan', harga: 0, satuan: 'menyesuaikan', fitur: ['Konsultasi gratis terlebih dahulu','Disesuaikan kebutuhan bisnis Anda'], popular: false, urutan: 14 }
+      ];
+
+      for (const p of seedData) {
+        await client.query(
+          `INSERT INTO paket_catalog (kode, nama, kategori, harga, satuan, fitur, is_popular, urutan)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8) ON CONFLICT (kode) DO NOTHING`,
+          [p.kode, p.nama, p.kategori, p.harga, p.satuan, JSON.stringify(p.fitur), p.popular, p.urutan]
+        );
+      }
+      console.log('Paket catalog seeded successfully.');
+    }
+  } catch (e) {
+    console.error('Gagal inisialisasi tabel:', e);
+  }
   release();
 });
+
+// ==============================
+// KONFIGURASI GOOGLE OAUTH
+// ==============================
+const session = require('express-session');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'fallback_secret',
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => done(null, user.id));
+passport.deserializeUser(async (id, done) => {
+  try {
+    const res = await db.query('SELECT * FROM users WHERE id = $1', [id]);
+    done(null, res.rows[0]);
+  } catch (err) {
+    done(err, null);
+  }
+});
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "/auth/google/callback",
+    proxy: true
+  },
+  async function(accessToken, refreshToken, profile, cb) {
+    try {
+      const res = await db.query('SELECT * FROM users WHERE google_id = $1', [profile.id]);
+      let user = res.rows[0];
+      
+      if (!user) {
+        const countRes = await db.query('SELECT COUNT(*) FROM users');
+        const role = parseInt(countRes.rows[0].count) === 0 ? 'super_admin' : 'tamu';
+        
+        const insertRes = await db.query(
+          'INSERT INTO users (google_id, nama, email, role) VALUES ($1, $2, $3, $4) RETURNING *',
+          [profile.id, profile.displayName, profile.emails[0].value, role]
+        );
+        user = insertRes.rows[0];
+      }
+      return cb(null, user);
+    } catch (err) {
+      return cb(err, null);
+    }
+  }
+));
+
+// MIDDLEWARE RBAC
+const requireRole = (roles) => (req, res, next) => {
+  if (!req.isAuthenticated()) return res.status(401).json({ error: 'Belum login' });
+  if (!roles.includes(req.user.role)) return res.status(403).json({ error: 'Akses ditolak' });
+  next();
+};
+const adminRoles = ['super_admin', 'admin', 'anggota'];
+const superAdminRoles = ['super_admin'];
+
+// Endpoint Auth
+app.get('/api/auth/me', (req, res) => {
+  if (req.isAuthenticated()) res.json({ user: req.user });
+  else res.status(401).json({ error: 'Belum login' });
+});
+
+// Public endpoint: daftar paket
+app.get('/api/paket', async (req, res) => {
+  try {
+    const result = await db.query('SELECT * FROM paket_catalog ORDER BY urutan ASC');
+    res.json(result.rows);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// ==============================
+// ROUTING UTAMA
+// ==============================
+// GET / → halaman publik home, tidak perlu login
+app.get('/', (req, res) => {
+  res.redirect('/home.html');
+});
+
+// Proteksi server-side untuk admin.html
+app.get('/admin.html', (req, res) => {
+  if (!req.isAuthenticated() || !adminRoles.includes(req.user.role)) {
+    return res.redirect('/admin-login.html?error=access_denied');
+  }
+  res.sendFile('admin.html', { root: 'public' });
+});
+
+// ---- AUTH ROUTES ----
+
+// USER LOGIN (Pelanggan)
+app.get('/auth/google', (req, res, next) => {
+  req.session.authIntent = 'user';
+  next();
+}, passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// ADMIN LOGIN (Tim Internal)
+app.get('/auth/admin/google', (req, res, next) => {
+  req.session.authIntent = 'admin';
+  next();
+}, passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// CALLBACK tunggal untuk kedua jalur
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login.html?error=auth_failed' }),
+  (req, res) => {
+    const intent = req.session.authIntent || 'user';
+    delete req.session.authIntent;
+
+    if (intent === 'admin') {
+      // Jalur admin portal: hanya izinkan role admin/anggota
+      if (adminRoles.includes(req.user.role)) {
+        return res.redirect('/admin.html');
+      } else {
+        // Bukan admin → tolak dan keluarkan
+        return req.logout(() => {
+          res.redirect('/admin-login.html?error=access_denied');
+        });
+      }
+    } else {
+      // Jalur user portal: SEMUA role (termasuk admin) masuk ke sisi user
+      // Admin tetap bisa melihat tampilan user jika login dari sini
+      return res.redirect('/home.html');
+    }
+  }
+);
+
+
+// LOGOUT Admin → kembali ke admin-login
+app.get('/auth/admin/logout', (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+    res.redirect('/admin-login.html');
+  });
+});
+
+// LOGOUT User → kembali ke home
+app.get('/auth/logout', (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+    res.redirect('/home.html');
+  });
+});
+
 
 // Endpoint untuk menyimpan order
 app.post('/api/orders', (req, res) => {
@@ -69,7 +285,7 @@ app.post('/api/contacts', (req, res) => {
 });
 
 // Ambil semua data orders
-app.get('/api/orders', (req, res) => {
+app.get('/api/orders', requireRole(adminRoles), (req, res) => {
   const sql = 'SELECT * FROM orders ORDER BY created_at DESC';
   db.query(sql, (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -78,7 +294,7 @@ app.get('/api/orders', (req, res) => {
 });
 
 // Update status order
-app.put('/api/orders/:id', (req, res) => {
+app.put('/api/orders/:id', requireRole(['super_admin', 'admin', 'anggota']), (req, res) => {
   const { status } = req.body;
   const { id } = req.params;
   const sql = 'UPDATE orders SET status = $1 WHERE id = $2';
@@ -89,12 +305,34 @@ app.put('/api/orders/:id', (req, res) => {
 });
 
 // Ambil semua data contacts
-app.get('/api/contacts', (req, res) => {
+app.get('/api/contacts', requireRole(['super_admin', 'admin']), (req, res) => {
   const sql = 'SELECT * FROM contacts ORDER BY created_at DESC';
   db.query(sql, (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(results.rows);
   });
+});
+
+// ==============================
+// ENDPOINT MANAJEMEN USER
+// ==============================
+app.get('/api/users', requireRole(superAdminRoles), async (req, res) => {
+  try {
+    const results = await db.query('SELECT id, nama, email, role, created_at FROM users ORDER BY id ASC');
+    res.json(results.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/users/:id/role', requireRole(superAdminRoles), async (req, res) => {
+  try {
+    const { role } = req.body;
+    await db.query('UPDATE users SET role = $1 WHERE id = $2', [role, req.params.id]);
+    res.json({ message: 'Role berhasil diperbarui' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // ==============================
@@ -147,7 +385,7 @@ app.post('/api/track', async (req, res) => {
 });
 
 // GET /api/analytics — ringkasan analytics untuk admin dashboard
-app.get('/api/analytics', async (req, res) => {
+app.get('/api/analytics', requireRole(adminRoles), async (req, res) => {
   try {
     // 1. Total views hari ini
     const todayViews = await db.query(`

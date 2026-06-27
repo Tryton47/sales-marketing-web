@@ -104,18 +104,18 @@
 <!-- Login Overlay -->
 <div id="loginOverlay" class="login-overlay">
   <div class="login-box">
-    <h2>Secure Area</h2>
-    <p>Masukkan password admin untuk melanjutkan</p>
-    <input type="password" id="adminPassword" class="login-input" placeholder="Password..." />
-    <button class="btn-login" onclick="checkLogin()">Masuk Dashboard</button>
-    <div id="loginError" class="login-error">Password Salah!</div>
+    <h2>Memeriksa Akses...</h2>
+    <p>Mengarahkan ke halaman login jika belum memiliki akses.</p>
   </div>
 </div>
 
 <div id="dashboardContent">
 <!-- Header -->
 <div class="header" data-aos="fade-down" data-aos-duration="800">
-  <h1>⚡ Alpha Marketing — Admin Dashboard</h1>
+  <div>
+    <h1>⚡ Alpha Marketing — Admin Dashboard</h1>
+    <div id="userInfoText" style="color:#aaa; font-size:0.9rem; margin-top:5px;">Memuat profil...</div>
+  </div>
   <div>
     <button class="btn btn-refresh" id="refreshBtn" onclick="loadAll()">🔄 Refresh</button>
     <button class="btn btn-logout" onclick="logout()">Logout</button>
@@ -126,6 +126,7 @@
 <div class="tab-bar" data-aos="fade-down" data-aos-delay="100">
   <button class="tab-btn active" id="tab-orders" onclick="switchTab('orders')">📋 Pesanan & Pesan</button>
   <button class="tab-btn" id="tab-analytics" onclick="switchTab('analytics')">📊 Analytics</button>
+  <button class="tab-btn" id="tab-users" onclick="switchTab('users')" style="display:none;">👥 Manajemen User</button>
 </div>
 
 <!-- ======================== TAB: ORDERS ======================== -->
@@ -202,6 +203,17 @@
     </table>
   </div>
 </div>
+
+<!-- ======================== TAB: MANAJEMEN USER ======================== -->
+<div id="panel-users" class="tab-panel">
+  <p class="section-title">👥 Daftar Pengguna & Akses (Hanya Super Admin)</p>
+  <div class="table-wrapper" data-aos="fade-up">
+    <table>
+      <thead><tr><th>ID</th><th>Nama</th><th>Email</th><th>Role Saat Ini</th><th>Ubah Role</th></tr></thead>
+      <tbody id="usersTable"><tr><td colspan="5" class="loading">Memuat data pengguna...</td></tr></tbody>
+    </table>
+  </div>
+</div>
 </div> <!-- End of dashboardContent -->
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -215,36 +227,40 @@
   const passInput = document.getElementById('adminPassword');
   const errText = document.getElementById('loginError');
 
+  let currentUser = null;
+
   function showDashboard() {
     loginOverlay.classList.add('hidden');
     dashboardContent.style.display = 'block';
     setTimeout(() => {
-      // Refresh AOS dan Chart setelah tampil
       loadAll();
     }, 100);
   }
 
-  function checkLogin() {
-    if (passInput.value === PASSWORD) {
-      sessionStorage.setItem('adminAuth', 'true');
+  async function checkAuthAndLoad() {
+    try {
+      const res = await fetch('/api/auth/me');
+      if (!res.ok) throw new Error('Not authenticated');
+      const data = await res.json();
+      currentUser = data.user;
+      
+      const roleName = currentUser.role.replace('_', ' ').toUpperCase();
+      const roleClass = currentUser.role === 'super_admin' ? 'badge-selesai' : (currentUser.role === 'admin' ? 'badge-diproses' : (currentUser.role === 'anggota' ? 'badge-desktop' : 'badge-pending'));
+      
+      document.getElementById('userInfoText').innerHTML = `Halo, <strong style="color:white;">${currentUser.nama}</strong> &nbsp; <span class="badge ${roleClass}">${roleName}</span>`;
+      
+      if (currentUser.role === 'super_admin') {
+        document.getElementById('tab-users').style.display = 'inline-block';
+      }
+      
       showDashboard();
-    } else {
-      errText.style.display = 'block';
-      setTimeout(() => errText.style.display = 'none', 3000);
+    } catch(e) {
+      window.location.href = '/login.html';
     }
   }
 
-  // Handle enter key
-  passInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') checkLogin();
-  });
-
-  const isAuth = sessionStorage.getItem('adminAuth');
-  if (isAuth) {
-    showDashboard();
-  } else {
-    // Tetap di halaman login, jangan load API dulu untuk security data
-  }
+  // Initial load
+  checkAuthAndLoad();
 
   // Chart instances
   let lineChartInst = null;
@@ -257,6 +273,7 @@
     document.getElementById('panel-' + name).classList.add('active');
     document.getElementById('tab-' + name).classList.add('active');
     if (name === 'analytics') loadAnalytics();
+    if (name === 'users' && currentUser?.role === 'super_admin') loadUsers();
   }
 
   function formatTanggal(str) {
@@ -296,8 +313,12 @@
 
   async function loadOrders() {
     const res = await fetch('/api/orders');
-    const data = await res.json();
     const tbody = document.getElementById('ordersTable');
+    if (!res.ok) {
+       tbody.innerHTML = `<tr><td colspan="8" class="empty-state">Akses Ditolak (Butuh hak Super Admin / Admin / Anggota)</td></tr>`;
+       return;
+    }
+    const data = await res.json();
     document.getElementById('totalOrders').textContent = data.length;
     document.getElementById('totalPending').textContent = data.filter(d => d.status === 'pending').length;
     document.getElementById('totalSelesai').textContent = data.filter(d => d.status === 'selesai').length;
@@ -307,12 +328,13 @@
       if (a.status!=='selesai' && b.status==='selesai') return -1;
       return 0;
     });
+    const isReadonly = currentUser.role === 'tamu';
     tbody.innerHTML = sorted.map((d,i) => `
       <tr>
         <td>${i+1}</td><td>${d.nama}</td><td>${d.email}</td>
         <td><a href="https://wa.me/${formatWa(d.whatsapp)}" target="_blank" style="color:#00c864;text-decoration:none;font-weight:600;">💬 ${d.whatsapp||'-'}</a></td>
         <td>${d.paket}</td><td>${badgeHTML(d.status)}</td><td>${formatTanggal(d.created_at)}</td>
-        <td><select class="status-select" onchange="updateStatus(${d.id},this.value)">
+        <td><select class="status-select" onchange="updateStatus(${d.id},this.value)" ${isReadonly ? 'disabled' : ''}>
           <option ${d.status==='pending'?'selected':''}>pending</option>
           <option ${d.status==='diproses'?'selected':''}>diproses</option>
           <option ${d.status==='selesai'?'selected':''}>selesai</option>
@@ -322,8 +344,13 @@
 
   async function loadContacts() {
     const res = await fetch('/api/contacts');
-    const data = await res.json();
     const tbody = document.getElementById('contactsTable');
+    if (!res.ok) {
+       tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Akses Ditolak (Hanya Super Admin & Admin)</td></tr>`;
+       document.getElementById('totalContacts').textContent = '-';
+       return;
+    }
+    const data = await res.json();
     document.getElementById('totalContacts').textContent = data.length;
     if (data.length === 0) { tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Belum ada pesan.</td></tr>`; return; }
     tbody.innerHTML = data.map((d,i) => `
@@ -332,6 +359,42 @@
         <td><a href="https://wa.me/${formatWa(d.whatsapp)}" target="_blank" style="color:#00c864;text-decoration:none;font-weight:600;">💬 ${d.whatsapp||'-'}</a></td>
         <td>${d.pesan}</td><td>${formatTanggal(d.created_at)}</td>
       </tr>`).join('');
+  }
+
+  // ---- USER MANAGEMENT ----
+  async function loadUsers() {
+    if (currentUser?.role !== 'super_admin') return;
+    try {
+      const res = await fetch('/api/users');
+      if (!res.ok) return;
+      const data = await res.json();
+      const tbody = document.getElementById('usersTable');
+      if (data.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="empty-state">Belum ada pengguna.</td></tr>`; return; }
+      
+      tbody.innerHTML = data.map((d) => `
+        <tr>
+          <td>${d.id}</td>
+          <td>${d.nama}</td>
+          <td>${d.email}</td>
+          <td><span class="badge ${d.role === 'super_admin' ? 'badge-selesai' : (d.role === 'admin' ? 'badge-diproses' : (d.role === 'anggota' ? 'badge-desktop' : 'badge-pending'))}">${d.role}</span></td>
+          <td>
+            <select class="status-select" onchange="updateUserRole(${d.id}, this.value)" ${d.id === currentUser.id ? 'disabled' : ''}>
+              <option value="super_admin" ${d.role==='super_admin'?'selected':''}>Super Admin</option>
+              <option value="admin" ${d.role==='admin'?'selected':''}>Admin</option>
+              <option value="anggota" ${d.role==='anggota'?'selected':''}>Anggota</option>
+              <option value="tamu" ${d.role==='tamu'?'selected':''}>Tamu</option>
+            </select>
+          </td>
+        </tr>`).join('');
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  async function updateUserRole(id, newRole) {
+    if(!confirm('Apakah Anda yakin ingin mengubah hak akses pengguna ini?')) return loadUsers();
+    await fetch(`/api/users/${id}/role`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ role: newRole }) });
+    loadUsers();
   }
 
   // ---- ANALYTICS ----
@@ -427,17 +490,17 @@
     loadContacts();
     const analyticsActive = document.getElementById('panel-analytics').classList.contains('active');
     if (analyticsActive) loadAnalytics();
+    
+    if (currentUser?.role === 'super_admin' && document.getElementById('panel-users').classList.contains('active')) {
+      loadUsers();
+    }
   }
 
   function logout() {
-    sessionStorage.removeItem('adminAuth');
-    location.reload();
+    window.location.href = '/auth/admin/logout';
   }
 
-  // Initial load only if already authenticated
-  if (sessionStorage.getItem('adminAuth')) {
-    loadAll();
-  }
+
 </script>
 </body>
 </html>

@@ -1,297 +1,639 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="dark">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin | Alpha Marketing</title>
+    <title>Masuk | Alpha Marketing</title>
+    <meta name="description" content="Masuk ke Alpha Marketing dan mulai tingkatkan bisnis digital Anda bersama kami.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --p1: #4f46e5;
+            --p2: #7c3aed;
+            --p3: #06b6d4;
+            --bg: #05060f;
+            --card: rgba(10, 12, 28, 0.75);
         }
 
+        html, body { height: 100%; }
+
         body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ===== LEFT PANEL (decorative) ===== */
+        .left-panel {
+            flex: 1;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            background: #0f172a; /* Dark base */
             overflow: hidden;
-            position: relative;
+            background: linear-gradient(135deg, #0a0c1e 0%, #0f0a2e 50%, #050510 100%);
         }
 
-        /* Rich Animated Background Gradient */
-        .premium-bg {
+        /* Animated aurora blobs */
+        .aurora {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(
-                from 0deg at 50% 50%,
-                #0f172a 0%,
-                #312e81 25%,
-                #1e1b4b 50%,
-                #4338ca 75%,
-                #0f172a 100%
-            );
-            animation: rotateBg 20s linear infinite;
-            z-index: 0;
+            border-radius: 50%;
+            filter: blur(70px);
+            animation: drift 12s ease-in-out infinite;
+            pointer-events: none;
         }
-        
-        @keyframes rotateBg {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .aurora-1 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(79,70,229,0.4) 0%, transparent 70%);
+            top: -150px; left: -150px;
+            animation-delay: 0s;
+        }
+        .aurora-2 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(124,58,237,0.35) 0%, transparent 70%);
+            bottom: -100px; right: -100px;
+            animation-delay: -4s;
+        }
+        .aurora-3 {
+            width: 350px; height: 350px;
+            background: radial-gradient(circle, rgba(6,182,212,0.25) 0%, transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -8s;
+        }
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -20px) scale(1.05); }
+            66% { transform: translate(-20px, 30px) scale(0.95); }
         }
 
-        /* Overlay blur to make gradient smooth */
-        .overlay {
+        /* Particle dots */
+        .particles {
             position: absolute;
             inset: 0;
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(80px);
-            -webkit-backdrop-filter: blur(80px);
-            z-index: 1;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFly linear infinite;
+        }
+        @keyframes particleFly {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100px) translateX(var(--dx, 0px)); opacity: 0; }
         }
 
-        .login-wrapper {
+        /* Left panel content */
+        .left-content {
             position: relative;
             z-index: 10;
-            width: 100%;
-            max-width: 440px;
-            padding: 20px;
-        }
-
-        /* Premium Glass Card */
-        .login-card {
-            background: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 50px 40px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.05) inset;
             text-align: center;
-            color: #f8fafc;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out forwards;
+            padding: 40px;
+            max-width: 480px;
         }
 
-        @keyframes fadeInUp {
-            to { transform: translateY(0); opacity: 1; }
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 48px;
         }
-
-        .logo {
-            display: inline-block;
-            font-size: 1.8rem;
+        .logo-mark {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--p1), var(--p2));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(79,70,229,0.5);
+            position: relative;
+        }
+        .logo-mark::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 17px;
+            background: linear-gradient(135deg, var(--p1), var(--p3));
+            z-index: -1;
+            opacity: 0.4;
+            filter: blur(6px);
+        }
+        .logo-name {
+            font-size: 1.6rem;
             font-weight: 800;
-            color: #f8fafc;
-            text-decoration: none;
-            margin-bottom: 30px;
+            color: white;
             letter-spacing: -0.5px;
         }
-        .logo span {
-            color: #818cf8;
+        .logo-name span { color: #818cf8; }
+
+        .left-headline {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+        .left-headline .gradient-text {
+            background: linear-gradient(135deg, #818cf8, #c084fc, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .left-sub {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.7;
+            margin-bottom: 40px;
         }
 
-        .login-card h2 {
-            font-size: 1.75rem;
-            margin-bottom: 10px;
-            font-weight: 700;
+        /* Stats row */
+        .stats-row {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-num {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            display: block;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .stat-sep {
+            width: 1px;
+            background: rgba(255,255,255,0.1);
+            align-self: stretch;
         }
 
-        .login-card p {
-            color: #94a3b8;
-            margin-bottom: 35px;
-            font-size: 0.95rem;
+        /* Testimonial card floating */
+        .floating-card {
+            position: absolute;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 14px 18px;
+            pointer-events: none;
         }
+        .fc-1 {
+            bottom: 60px;
+            left: 30px;
+            animation: floatCard 6s ease-in-out infinite;
+        }
+        .fc-2 {
+            top: 80px;
+            right: 30px;
+            animation: floatCard 8s ease-in-out infinite reverse;
+        }
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .fc-inner {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .fc-avatar {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        .fc-text p { font-size: 0.75rem; color: rgba(255,255,255,0.8); font-weight: 500; }
+        .fc-text span { font-size: 0.65rem; color: rgba(255,255,255,0.4); }
 
-        .form-group {
-            text-align: left;
-            margin-bottom: 24px;
+        /* ===== RIGHT PANEL (login form) ===== */
+        .right-panel {
+            width: 480px;
+            flex-shrink: 0;
+            background: rgba(8, 10, 22, 0.95);
+            border-left: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 48px;
             position: relative;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.875rem;
-            color: #cbd5e1;
-            font-weight: 500;
+        /* Subtle top gradient */
+        .right-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 200px;
+            background: linear-gradient(180deg, rgba(79,70,229,0.08), transparent);
+            pointer-events: none;
         }
 
-        .form-group input {
+        .login-form-wrapper {
             width: 100%;
-            padding: 14px 16px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            animation: formSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes formSlideIn {
+            from { transform: translateX(30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        .form-group input:focus {
-            outline: none;
-            border-color: #818cf8;
-            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
-            background: rgba(15, 23, 42, 1);
+        .form-header {
+            margin-bottom: 36px;
         }
-
-        .btn-primary {
-            width: 100%;
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            color: white;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
+        .form-eyebrow {
+            font-size: 0.75rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+            color: #818cf8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
         }
-
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4);
+        .form-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
         }
-        
-        .btn-primary:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .error-msg {
-            background: rgba(239, 68, 68, 0.15);
-            color: #fca5a5;
-            padding: 12px;
-            border-radius: 10px;
+        .form-sub {
             font-size: 0.9rem;
-            margin-bottom: 24px;
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: rgba(255,255,255,0.4);
+            line-height: 1.6;
+        }
+
+        /* Benefits list */
+        .benefits {
+            list-style: none;
+            margin-bottom: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .benefits li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+        }
+        .benefit-icon {
+            width: 22px; height: 22px;
+            background: rgba(79,70,229,0.2);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* The Google button — main CTA */
+        .btn-google-hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 16px 24px;
+            background: white;
+            border: none;
+            border-radius: 14px;
+            color: #1e293b;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-google-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(79,70,229,0.1), rgba(124,58,237,0.1));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .btn-google-hero:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(79,70,229,0.2);
+        }
+        .btn-google-hero:hover::before { opacity: 1; }
+        .btn-google-hero:active { transform: translateY(-1px); }
+
+        /* Divider */
+        .or-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 24px 0;
+        }
+        .or-divider::before, .or-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.08);
+        }
+        .or-divider span {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.25);
+        }
+
+        /* Social proof mini */
+        .social-proof {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+        }
+        .avatars-stack {
+            display: flex;
+        }
+        .avatar-mini {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            border: 2px solid rgba(8,10,22,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            margin-left: -8px;
+        }
+        .avatar-mini:first-child { margin-left: 0; }
+        .social-text {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.4;
+        }
+        .social-text strong { color: rgba(255,255,255,0.7); }
+
+        /* Error banner */
+        .error-bar {
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.25);
+            border-radius: 10px;
+            padding: 10px 14px;
             display: none;
-            animation: pulseError 2s infinite;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
         }
+        .error-bar p { font-size: 0.82rem; color: #fca5a5; }
 
-        @keyframes pulseError {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2); }
-            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        /* Admin link */
+        .admin-link-row {
+            text-align: center;
+            margin-top: 28px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
         }
-
-        .shake {
-            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-        }
-
-        @keyframes shake {
-            10%, 90% { transform: translate3d(-3px, 0, 0); }
-            20%, 80% { transform: translate3d(5px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
-            40%, 60% { transform: translate3d(8px, 0, 0); }
-        }
-        
-        .footer-text {
-            margin-top: 25px;
+        .admin-link-row p {
             font-size: 0.8rem;
-            color: #64748b;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 6px;
         }
-        @media (max-width: 480px) {
-            .login-card { padding: 30px 20px; }
+        .admin-link-row a {
+            font-size: 0.82rem;
+            color: #818cf8;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+        .admin-link-row a:hover { color: #a5b4fc; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .left-panel { display: none; }
+            .right-panel { width: 100%; border: none; padding: 40px 28px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="premium-bg"></div>
-    <div class="overlay"></div>
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+        <div class="aurora aurora-3"></div>
 
-    <div class="login-wrapper">
-        <div class="login-card" id="loginCard">
-            <a href="#" class="logo" style="display:flex; align-items:center; justify-content:center;">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
-                    <path d="M16 2L2 28H11.5L16 19.5L20.5 28H30L16 2Z" fill="url(#paint0_linear_logo_login)"/>
-                    <defs>
-                        <linearGradient id="paint0_linear_logo_login" x1="16" y1="2" x2="16" y2="28" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#4F46E5"/>
-                            <stop offset="1" stop-color="#8B5CF6"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
-                Alpha<span>Marketing</span>
-            </a>
-            
-            <h2>Login Admin</h2>
-            <p>Silakan verifikasi kredensial Administrator Anda.</p>
+        <!-- Floating particles (generated by JS) -->
+        <div class="particles" id="particles"></div>
 
-            <div id="errorMsg" class="error-msg">
-                Autentikasi Gagal: ID atau Sandi Salah!
+        <!-- Floating testimonial cards -->
+        <div class="floating-card fc-1">
+            <div class="fc-inner">
+                <div class="fc-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                <div class="fc-text">
+                    <p>Penjualan naik 3x lipat!</p>
+                    <span>Toko Batik Nusantara · Jakarta</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="floating-card fc-2">
+            <div class="fc-inner">
+                <div class="fc-avatar" style="background:linear-gradient(135deg,#06b6d4,#4f46e5)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+                <div class="fc-text">
+                    <p>ROI iklan meningkat signifikan</p>
+                    <span>CV. Maju Bersama · Surabaya</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="left-content">
+            <div class="brand-logo">
+                <div class="logo-mark">
+                    <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+                        <path d="M16 2L2 28H11.5L16 19.5L20.5 28H30L16 2Z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="logo-name">Alpha<span>Marketing</span></div>
             </div>
 
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="userId">Access ID</label>
-                    <input type="text" id="userId" placeholder="Masukkan ID (ex: admin)" required autocomplete="off">
+            <h1 class="left-headline">
+                Tingkatkan Bisnis<br>
+                <span class="gradient-text">Secara Digital</span>
+            </h1>
+            <p class="left-sub">Bergabung dengan ratusan bisnis yang sudah mempercayakan pertumbuhan digital mereka kepada kami.</p>
+
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span class="stat-num" id="clientCounter">0+</span>
+                    <span class="stat-label">Klien Aktif</span>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="••••••••" required>
+                <div class="stat-sep"></div>
+                <div class="stat-item">
+                    <span class="stat-num">98%</span>
+                    <span class="stat-label">Kepuasan</span>
                 </div>
-                
-                <button type="submit" id="submitBtn" class="btn-primary">Masuk ke Dasbor</button>
-            </form>
-            
-            <p class="footer-text">
-                &copy; 2026 Alpha Marketing - Dasbor Diamankan
-            </p>
+                <div class="stat-sep"></div>
+                <div class="stat-item">
+                    <span class="stat-num">5★</span>
+                    <span class="stat-label">Rating</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+        <div class="login-form-wrapper">
+            <div class="form-header">
+                <div class="form-eyebrow">Portal Klien</div>
+                <h2 class="form-title">Selamat Datang</h2>
+                <p class="form-sub">Masuk untuk melacak progres pesanan Anda dan berkomunikasi langsung dengan tim kami.</p>
+            </div>
+
+            <div class="error-bar" id="errorBar">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+                </svg>
+                <p>Login gagal. Silakan coba lagi.</p>
+            </div>
+
+            <ul class="benefits">
+                <li>
+                    <div class="benefit-icon">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2.5">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    Pantau status pesanan secara real-time
+                </li>
+                <li>
+                    <div class="benefit-icon">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2.5">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    Konsultasi langsung dengan tim marketing
+                </li>
+                <li>
+                    <div class="benefit-icon">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2.5">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    Akses laporan performa kampanye Anda
+                </li>
+            </ul>
+
+            <a href="/auth/google" class="btn-google-hero" id="googleBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                Lanjutkan dengan Google
+            </a>
+
+            <div class="or-divider"><span>Aman & Terenkripsi</span></div>
+
+            <div class="social-proof">
+                <div class="avatars-stack">
+                    <div class="avatar-mini" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">A</div>
+                    <div class="avatar-mini" style="background:linear-gradient(135deg,#06b6d4,#4f46e5)">B</div>
+                    <div class="avatar-mini" style="background:linear-gradient(135deg,#10b981,#3b82f6)">C</div>
+                    <div class="avatar-mini" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">D</div>
+                </div>
+                <div class="social-text">
+                    <strong>250+ klien</strong> sudah bergabung dan mempercayai Alpha Marketing
+                </div>
+            </div>
+
+            <div class="admin-link-row">
+                <p>Anggota tim Alpha Marketing?</p>
+                <a href="/admin-login.html">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    Masuk ke Admin Portal
+                </a>
+            </div>
         </div>
     </div>
 
     <script>
-        const loginForm = document.getElementById('loginForm');
-        const errorMsg = document.getElementById('errorMsg');
-        const loginCard = document.getElementById('loginCard');
-        const submitBtn = document.getElementById('submitBtn');
+        // Error param
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('error')) {
+            document.getElementById('errorBar').style.display = 'flex';
+        }
 
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const id = document.getElementById('userId').value;
-            const pw = document.getElementById('password').value;
+        // Auto redirect jika sudah login
+        fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(data => {
+            if (!data) return;
+            const adminRoles = ['super_admin', 'admin', 'anggota'];
+            window.location.href = adminRoles.includes(data.user.role) ? '/admin.html' : '/home.html';
+        }).catch(() => {});
 
-            submitBtn.innerText = 'Memeriksa Kredensial...';
-            submitBtn.disabled = true;
-            errorMsg.style.display = 'none';
-            loginCard.classList.remove('shake');
-
-            setTimeout(() => {
-                if(id === 'admin' && pw === 'admin') {
-                    submitBtn.innerText = 'Akses Diberikan!';
-                    submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                    sessionStorage.setItem('adminAuth', 'true'); // <-- Fix: Memberikan kunci akses
-                    setTimeout(() => {
-                        window.location.href = 'admin.html';
-                    }, 800);
-                } else {
-                    errorMsg.style.display = 'block';
-                    submitBtn.innerText = 'Masuk ke Dasbor';
-                    submitBtn.disabled = false;
-                    
-                    loginCard.offsetWidth; // trigger reflow
-                    loginCard.classList.add('shake');
-                    
-                    document.getElementById('password').value = '';
-                    document.getElementById('password').focus();
-                }
-            }, 1200);
+        // Loading state
+        document.getElementById('googleBtn').addEventListener('click', function () {
+            this.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e293b" stroke-width="2.5" style="animation:spin 0.7s linear infinite"><circle cx="12" cy="12" r="9" stroke-dasharray="40" stroke-dashoffset="12"/></svg>&nbsp; Menghubungkan ke Google...`;
+            this.style.opacity = '0.8';
+            this.style.pointerEvents = 'none';
         });
+
+        // Counter animation
+        function animateCounter(el, target, duration) {
+            let start = 0;
+            const step = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += step;
+                if (start >= target) { start = target; clearInterval(timer); }
+                el.textContent = Math.round(start) + '+';
+            }, 16);
+        }
+        animateCounter(document.getElementById('clientCounter'), 250, 1800);
+
+        // Generate particles
+        const container = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.cssText = `
+                left: ${Math.random() * 100}%;
+                --dx: ${(Math.random() - 0.5) * 100}px;
+                animation-duration: ${6 + Math.random() * 10}s;
+                animation-delay: ${Math.random() * 10}s;
+                opacity: ${0.3 + Math.random() * 0.5};
+                width: ${1 + Math.random() * 2}px;
+                height: ${1 + Math.random() * 2}px;
+            `;
+            container.appendChild(p);
+        }
     </script>
+    <style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
 </body>
 </html>

@@ -1,34 +1,9 @@
 // script.js
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. THEME SWITCHER (Dark / Light Mode) ---
-    const themeBtn = document.getElementById('themeToggle');
-    const moonIcon = document.getElementById('moonIcon');
-    const sunIcon = document.getElementById('sunIcon');
-    const htmlEl = document.documentElement;
-    
-    // Check local storage for preference
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    if(currentTheme === 'dark') {
-        htmlEl.setAttribute('data-theme', 'dark');
-        moonIcon.classList.add('hidden');
-        sunIcon.classList.remove('hidden');
-    }
-
-    themeBtn.addEventListener('click', () => {
-        const isDark = htmlEl.getAttribute('data-theme') === 'dark';
-        if(isDark) {
-            htmlEl.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
-            moonIcon.classList.remove('hidden');
-            sunIcon.classList.add('hidden');
-        } else {
-            htmlEl.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-            moonIcon.classList.add('hidden');
-            sunIcon.classList.remove('hidden');
-        }
-    });
+    // --- 1. DARK MODE ENFORCED (No toggle — permanent dark) ---
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.removeItem('theme'); // clear any old preference
 
     // --- 2. MOBILE MENU & NAVBAR SCROLL ---
     const mobileBtn = document.querySelector('.mobile-menu-btn');
@@ -253,4 +228,163 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
+    // =============================================
+    // SCROLL REVEAL ENGINE — .reveal elements
+    // =============================================
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                entry.target.classList.remove('exit');
+            } else {
+                // Only exit-animate if scrolling back up
+                if (entry.boundingClientRect.top > 0) {
+                    entry.target.classList.remove('visible');
+                    entry.target.classList.add('exit');
+                }
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => {
+        revealObserver.observe(el);
+    });
+
+    // =============================================
+    // ANIMATED NUMBER COUNTER
+    // =============================================
+    function animateCounter(el, target, duration = 1800) {
+        let start = 0;
+        const step = target / (duration / 16);
+        const timer = setInterval(() => {
+            start += step;
+            if (start >= target) {
+                el.textContent = target >= 1000 ? (target / 1000).toFixed(1) + 'rb+' : target + '+';
+                clearInterval(timer);
+            } else {
+                el.textContent = Math.floor(start) + (target >= 1000 ? '' : '');
+            }
+        }, 16);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const target = parseInt(el.getAttribute('data-target'));
+                if (target) {
+                    animateCounter(el, target);
+                    counterObserver.unobserve(el);
+                }
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+        counterObserver.observe(el);
+    });
+
 });
+
+// =============================================
+// CURSOR GLOW TRACKER
+// =============================================
+(function() {
+    const glow = document.createElement('div');
+    glow.className = 'cursor-glow';
+    document.body.appendChild(glow);
+    document.addEventListener('mousemove', (e) => {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top = e.clientY + 'px';
+    });
+})();
+
+// =============================================
+// ROI EXPLOSION EFFECT (DRAMATIC)
+// =============================================
+(function() {
+    const slider1 = document.getElementById('visitors');
+    const slider2 = document.getElementById('avgValue');
+    const slider3 = document.getElementById('convRate');
+    const potentialEl = document.getElementById('potentialRevenue');
+    const roiCard = document.querySelector('.roi-card');
+    if (!slider1 || !potentialEl) return;
+
+    let lastExplodedPct = -1;
+    let lastExplodedTime = 0;
+    const sparkColors = ['#10b981', '#34d399', '#6ee7b7', '#4f46e5', '#818cf8', '#fbbf24', '#f59e0b'];
+
+    function triggerExplosion() {
+        const pct = (slider1.value - slider1.min) / (slider1.max - slider1.min);
+        // Map to 10 steps (0 to 10)
+        const step = Math.floor(pct * 10);
+        
+        // Trigger if step changed and it went up (or dropped significantly and went up again), 
+        // or if enough time passed since last explosion at a high value.
+        if ((step > lastExplodedPct || Date.now() - lastExplodedTime > 1500) && step > 0) {
+            lastExplodedPct = step;
+            lastExplodedTime = Date.now();
+
+            const severity = 0.5 + (pct * 2); // 0.5 to 2.5 severity multiplier
+            const numSparks = Math.floor(10 + (30 * pct)); // 10 to 40 sparks
+            
+            // Pass dynamic CSS variables for scale and shake
+            potentialEl.style.setProperty('--burst-scale', 1 + (0.5 * pct)); // 1.0 to 1.5
+            potentialEl.style.setProperty('--burst-scale-2', 1 + (0.25 * pct));
+            if (roiCard) roiCard.style.setProperty('--shake-x', (4 + 6 * pct) + 'px');
+
+            // 1. Text pulse
+            potentialEl.classList.remove('roi-explode');
+            void potentialEl.offsetWidth;
+            potentialEl.classList.add('roi-explode');
+
+            // 2. Card shake
+            if (roiCard) {
+                roiCard.classList.remove('roi-card-shake');
+                void roiCard.offsetWidth;
+                roiCard.classList.add('roi-card-shake');
+                setTimeout(() => roiCard.classList.remove('roi-card-shake'), 600);
+            }
+
+            // 3. Screen flash (opacity scales with severity)
+            const flash = document.createElement('div');
+            flash.className = 'roi-flash';
+            flash.style.background = `radial-gradient(circle at center, rgba(16,185,129,${0.1 + 0.3*pct}), transparent 70%)`;
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 700);
+
+            // 4. Expanding ring
+            const parent = potentialEl.parentElement;
+            parent.style.position = 'relative';
+            const ring = document.createElement('div');
+            ring.className = 'roi-ring';
+            parent.appendChild(ring);
+            setTimeout(() => ring.remove(), 900);
+
+            // 5. Multi-colored spark particles
+            for (let i = 0; i < numSparks; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'roi-spark';
+                const size = 3 + Math.random() * (4 + 4*pct);
+                spark.style.width = size + 'px';
+                spark.style.height = size + 'px';
+                spark.style.background = sparkColors[Math.floor(Math.random() * sparkColors.length)];
+                spark.style.left = '50%';
+                spark.style.top = '50%';
+                const angle = (Math.PI * 2 / numSparks) * i + (Math.random() * 0.5);
+                const dist = (40 + Math.random() * 80) * severity;
+                spark.style.setProperty('--sx', Math.cos(angle) * dist + 'px');
+                spark.style.setProperty('--sy', Math.sin(angle) * dist + 'px');
+                spark.style.boxShadow = '0 0 6px ' + spark.style.background;
+                parent.appendChild(spark);
+                setTimeout(() => spark.remove(), 1100);
+            }
+        } else if (step < lastExplodedPct - 1) {
+            // Reset if user slides way back down so it can explode again when going up
+            lastExplodedPct = step;
+        }
+    }
+    slider1.addEventListener('input', triggerExplosion);
+    if (slider2) slider2.addEventListener('input', triggerExplosion);
+    if (slider3) slider3.addEventListener('input', triggerExplosion);
+})();

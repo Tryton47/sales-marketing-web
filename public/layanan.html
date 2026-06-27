@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Layanan & Skema | Alpha Marketing</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
@@ -50,24 +50,20 @@
     <!-- Navigation -->
     <nav class="navbar scrolled">
         <div class="container nav-container">
-            <a href="index.html" class="logo" style="display:flex; align-items:center;">
+            <a href="home.html" class="logo" style="display:flex; align-items:center;">
                 <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
                     <path d="M16 2L2 28H11.5L16 19.5L20.5 28H30L16 2Z" fill="url(#paint0_linear_logo)"/>
                 </svg>
                 Alpha<span>Marketing</span>
             </a>
             <ul class="nav-links">
-                <li><a href="index.html">Beranda</a></li>
+                <li><a href="home.html">Beranda</a></li>
                 <li><a href="layanan.html" style="color:var(--primary); font-weight:700;">Layanan Terpadu</a></li>
                 <li><a href="harga.html">Harga & Paket</a></li>
                 <li><a href="about.html">Sejarah</a></li>
-                <li><a href="kontak.html" class="btn-outline">Konsultasi Gratis</a></li>
+                <li style="margin-left:10px;"><a href="kontak.html" class="btn-outline">Konsultasi Gratis</a></li>
             </ul>
             <div class="nav-actions">
-                <button id="themeToggle" class="theme-btn" aria-label="Toggle Theme">
-                    <svg id="moonIcon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                    <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                </button>
                 <div class="mobile-menu-btn"><span></span><span></span><span></span></div>
             </div>
         </div>
@@ -86,37 +82,47 @@
         <div class="container">
             <div class="divisi-grid">
                 
-                <div class="divisi-card" data-aos="fade-up" data-tilt data-tilt-max="3" data-tilt-speed="400">
-                    <img src="http://localhost:9000/alpha-marketing-files/images/produksi-video.png" alt="Produksi Video" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">
-                    <div class="divisi-icon" style="margin-bottom: 10px;">🎬</div>
+                <div class="divisi-card reveal from-bottom d-1" data-aos="fade-up" data-tilt data-tilt-max="3" data-tilt-speed="400">
+                    <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Produksi Video" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">
+                    <div class="divisi-icon" style="margin-bottom: 10px; color:var(--primary);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14v-4z"></path><rect x="3" y="6" width="12" height="12" rx="2" ry="2"></rect></svg>
+                    </div>
                     <h3>Produksi Kreatif & Video</h3>
                     <p>Pembuatan video sinematik untuk brand (company profile), video vertikal (Tiktok/Reels) yang viral, serta layanan dokumentasi acara eksklusif (event liputan siang/malam, termasuk drone shooting jika dibutuhkan). Kami edit sampai sempurna di mata audiens!</p>
                 </div>
 
-                <div class="divisi-card" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="3" data-tilt-speed="400">
-                    <img src="http://localhost:9000/alpha-marketing-files/images/social-media.png" alt="Social Media Management" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">
-                    <div class="divisi-icon" style="margin-bottom: 10px;">📱</div>
+                <div class="divisi-card reveal from-bottom d-2" data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="3" data-tilt-speed="400">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Social Media Management" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">
+                    <div class="divisi-icon" style="margin-bottom: 10px; color:var(--primary);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                    </div>
                     <h3>Social Media Management (SMM)</h3>
                     <p>Serahkan akun Instagram dan TikTok Anda kepada kami. Kami yang riset konten, kami yang desain jadwal feed harian, dan kami yang meramu copywriting *(caption)* paling elegan. Anda duduk santai melihat followers bertumbuh organik.</p>
                 </div>
 
-                <div class="divisi-card" data-aos="fade-up" data-aos-delay="200" data-tilt data-tilt-max="3" data-tilt-speed="400">
-                    <img src="http://localhost:9000/alpha-marketing-files/images/desain-grafis.png" alt="Desain Grafis" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">
-                    <div class="divisi-icon" style="margin-bottom: 10px;">🎨</div>
+                <div class="divisi-card reveal from-bottom d-3" data-aos="fade-up" data-aos-delay="200" data-tilt data-tilt-max="3" data-tilt-speed="400">
+                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Desain Grafis" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">
+                    <div class="divisi-icon" style="margin-bottom: 10px; color:var(--primary);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="5.5" r="2.5"></circle><path d="M19.732 10C19.904 10.64 20 11.31 20 12c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8c.69 0 1.36.096 2 .268"></path><circle cx="8" cy="11" r="1.5"></circle><circle cx="16" cy="15" r="1.5"></circle><circle cx="10" cy="16" r="1.5"></circle></svg>
+                    </div>
                     <h3>Desain Grafis Profesional</h3>
                     <p>Tidak perlu menyewa desainer bulanan. Kami melayani pembuatan *branding kit* (Logo Perusahaan), desain brosur cetak berkualitas tinggi, pamflet digital, hingga Spanduk yang memikat mata siapapun yang melihatnya secara visual.</p>
                 </div>
 
-                <div class="divisi-card" data-aos="fade-up" data-aos-delay="300" data-tilt data-tilt-max="3" data-tilt-speed="400">
-                    <img src="http://localhost:9000/alpha-marketing-files/images/iklan-ads.png" alt="Optimasi Ads" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">
-                    <div class="divisi-icon" style="margin-bottom: 10px;">🚀</div>
+                <div class="divisi-card reveal from-bottom d-4" data-aos="fade-up" data-aos-delay="300" data-tilt data-tilt-max="3" data-tilt-speed="400">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Optimasi Ads" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">
+                    <div class="divisi-icon" style="margin-bottom: 10px; color:var(--primary);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                    </div>
                     <h3>Optimasi Konversi & Iklan (Ads)</h3>
                     <p>Hanya desain bagus kadang tidak cukup. Kami siapkan bensinnya berpa *Facebook/Meta Ads, Tiktok Ads, & Google Ads* agar konten yang dibuat di atas tayang ke ratusan ribu calon pembeli ideal dan konversi WhatsApp toko Anda meledak.</p>
                 </div>
 
-                <div class="divisi-card" data-aos="fade-up" data-aos-delay="400" data-tilt data-tilt-max="3" data-tilt-speed="400">
-                    <img src="http://localhost:9000/alpha-marketing-files/images/pembuatan-web.jpg" alt="Pembuatan Website" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">
-                    <div class="divisi-icon" style="margin-bottom: 10px;">💻</div>
+                <div class="divisi-card reveal from-bottom" data-aos="fade-up" data-aos-delay="400" data-tilt data-tilt-max="3" data-tilt-speed="400">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Pembuatan Website" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">
+                    <div class="divisi-icon" style="margin-bottom: 10px; color:var(--primary);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                    </div>
                     <h3>Pembuatan Website & Sistem</h3>
                     <p>Hadirkan bisnis Anda di dunia digital dengan website profesional yang cepat, responsif, dan elegan. Mulai dari Landing Page untuk promosi hingga Company Profile mewah dan sistem Custom sesuai kebutuhan perusahaan Anda.</p>
                 </div>
@@ -132,37 +138,58 @@
     <!-- Skema Kerja Full Service -->
     <section style="padding: 80px 0 120px; background: var(--bg-white);">
         <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>Skema Eksekusi Studio</h2>
+            <div class="section-header reveal from-bottom" data-aos="fade-up">
+                <h2 class="gradient-text">Skema Eksekusi Studio</h2>
                 <p>Bagaimana dapur agensi Alpha Marketing memproses request kreatif Anda dengan gesit dan terukur.</p>
             </div>
             
             <div class="timeline">
-                <div class="timeline-box left" data-aos="fade-right">
-                    <div class="content">
-                        <h3>1. Kickoff & Brainstroming</h3>
-                        <p>Diskusi awal bentuk logo, gaya bahasa video, dan target *audience*. Kami sediakan moodboard (papan inspirasi) bagi brand Anda.</p>
+                <div class="timeline-box left reveal from-left" data-aos="fade-right">
+                    <div class="content glass-border" style="border-radius:16px;">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Brainstorming" class="timeline-img">
+                        <h3>1. Kickoff & Brainstorming</h3>
+                        <p>Diskusi awal bentuk logo, gaya bahasa video, dan target audience. Kami sediakan moodboard (papan inspirasi) bagi brand Anda.</p>
+                        <p style="margin-top:10px; font-size:0.85rem; color:var(--primary); opacity:0; max-height:0; overflow:hidden; transition: all 0.4s ease;" class="timeline-detail">Output: Moodboard visual, brand brief dokumen, timeline proyek terperinci.</p>
                     </div>
                 </div>
-                <div class="timeline-box right" data-aos="fade-left">
-                    <div class="content">
+                <div class="timeline-box right reveal from-right" data-aos="fade-left">
+                    <div class="content glass-border" style="border-radius:16px;">
+                        <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Produksi" class="timeline-img">
                         <h3>2. Tahap Produksi & Syuting</h3>
-                        <p>Tim terjun ke lapangan untuk mengambil foto/video. Fotografer, Videografer, dan Pengatur Arah akan memastikan material yang diambil berkelas.</p>
+                        <p>Tim terjun ke lapangan untuk mengambil foto/video. Fotografer, Videografer, dan Pengatur Arah memastikan material berkelas.</p>
+                        <p style="margin-top:10px; font-size:0.85rem; color:var(--primary); opacity:0; max-height:0; overflow:hidden; transition: all 0.4s ease;" class="timeline-detail">Output: Raw footage 4K, foto katalog hi-res, behind-the-scene content.</p>
                     </div>
                 </div>
-                <div class="timeline-box left" data-aos="fade-right">
-                    <div class="content">
+                <div class="timeline-box left reveal from-left" data-aos="fade-right">
+                    <div class="content glass-border" style="border-radius:16px;">
+                        <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Editing" class="timeline-img">
                         <h3>3. Post-Production (Editing)</h3>
-                        <p>Materi mentah masuk studio kami untuk diolah, diberi visual effect, efek suara (BGM), dan *color grading*. Revisi ditoleransi dengan kesepakatan.</p>
+                        <p>Materi mentah masuk studio kami untuk diolah, diberi visual effect, efek suara (BGM), dan color grading. Revisi dengan kesepakatan.</p>
+                        <p style="margin-top:10px; font-size:0.85rem; color:var(--primary); opacity:0; max-height:0; overflow:hidden; transition: all 0.4s ease;" class="timeline-detail">Output: Final cut video, desain approved, file siap distribusi.</p>
                     </div>
                 </div>
-                <div class="timeline-box right" data-aos="fade-left">
-                    <div class="content">
+                <div class="timeline-box right reveal from-right" data-aos="fade-left">
+                    <div class="content glass-border" style="border-radius:16px;">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Distribusi" class="timeline-img">
                         <h3>4. Pendistribusian Konten (SMM & Ads)</h3>
-                        <p>Setelah *approval*, karya visual akan di sebarkan berkala melalui kalender sosial media dan disokong menggunakan kampanye *Ads* bila diperlukan.</p>
+                        <p>Setelah approval, karya visual disebarkan berkala melalui kalender sosial media dan disokong kampanye Ads bila diperlukan.</p>
+                        <p style="margin-top:10px; font-size:0.85rem; color:var(--primary); opacity:0; max-height:0; overflow:hidden; transition: all 0.4s ease;" class="timeline-detail">Output: Laporan performa mingguan, optimasi A/B testing, scaling budget.</p>
                     </div>
                 </div>
             </div>
+
+            <script>
+                document.querySelectorAll('.timeline-box .content').forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        const detail = card.querySelector('.timeline-detail');
+                        if (detail) { detail.style.opacity = '1'; detail.style.maxHeight = '60px'; detail.style.marginTop = '10px'; }
+                    });
+                    card.addEventListener('mouseleave', () => {
+                        const detail = card.querySelector('.timeline-detail');
+                        if (detail) { detail.style.opacity = '0'; detail.style.maxHeight = '0'; detail.style.marginTop = '0'; }
+                    });
+                });
+            </script>
         </div>
     </section>
 
@@ -181,7 +208,7 @@
             <div class="footer-links">
                 <h4>Perusahaan</h4>
                 <ul>
-                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="home.html">Beranda</a></li>
                     <li><a href="harga.html">Harga</a></li>
                     <li><a href="kontak.html">Hubungi Kami</a></li>
                 </ul>
